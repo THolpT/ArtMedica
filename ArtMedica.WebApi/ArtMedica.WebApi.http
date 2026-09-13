@@ -1,0 +1,6 @@
+@ArtMedica.WebApi_HostAddress = http://localhost:5102
+
+GET {{ArtMedica.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

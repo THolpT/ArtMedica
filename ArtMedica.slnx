@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="ArtMedica.Application/ArtMedica.Application.csproj" />
+  <Project Path="ArtMedica.Domain/ArtMedica.Domain.csproj" />
+  <Project Path="ArtMedica.WebApi/ArtMedica.WebApi.csproj" />
+</Solution>
