@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace ArtMedica.Domain.Models;
 
 public class Accreditation

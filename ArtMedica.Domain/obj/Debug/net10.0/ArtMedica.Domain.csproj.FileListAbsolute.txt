@@ -1,0 +1,12 @@
+/mnt/second_disk/projects/ArtMedica.Domain/bin/Debug/net10.0/ArtMedica.Domain.deps.json
+/mnt/second_disk/projects/ArtMedica.Domain/bin/Debug/net10.0/ArtMedica.Domain.dll
+/mnt/second_disk/projects/ArtMedica.Domain/bin/Debug/net10.0/ArtMedica.Domain.pdb
+/mnt/second_disk/projects/ArtMedica.Domain/obj/Debug/net10.0/ArtMedica.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/mnt/second_disk/projects/ArtMedica.Domain/obj/Debug/net10.0/ArtMedica.Domain.AssemblyInfoInputs.cache
+/mnt/second_disk/projects/ArtMedica.Domain/obj/Debug/net10.0/ArtMedica.Domain.AssemblyInfo.cs
+/mnt/second_disk/projects/ArtMedica.Domain/obj/Debug/net10.0/ArtMedica.Domain.csproj.CoreCompileInputs.cache
+/mnt/second_disk/projects/ArtMedica.Domain/obj/Debug/net10.0/ArtMedica.Domain.sourcelink.json
+/mnt/second_disk/projects/ArtMedica.Domain/obj/Debug/net10.0/ArtMedica.Domain.dll
+/mnt/second_disk/projects/ArtMedica.Domain/obj/Debug/net10.0/refint/ArtMedica.Domain.dll
+/mnt/second_disk/projects/ArtMedica.Domain/obj/Debug/net10.0/ArtMedica.Domain.pdb
+/mnt/second_disk/projects/ArtMedica.Domain/obj/Debug/net10.0/ref/ArtMedica.Domain.dll
