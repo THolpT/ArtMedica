@@ -9,7 +9,7 @@ public static class SeedData
 
         const string adminRole = "Administrator";
         const string adminEmail = "admin@artmedica.local";
-        const string adminPassword = "admin123"; // ⚠️ смените после первого входа
+        const string adminPassword = "admin123";
 
         if (!await roleManager.RoleExistsAsync(adminRole))
         {
