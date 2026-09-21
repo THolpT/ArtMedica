@@ -1,0 +1,81 @@
+@page
+@model ArtMedica.WebApi.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Вход";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Вход — ArtMedica</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            background: #f3f4f6;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; margin: 0;
+        }
+        .card {
+            background: #fff; padding: 2rem; border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,.08);
+            width: 100%; max-width: 360px;
+        }
+        h1 { margin: 0 0 1.5rem; font-size: 1.4rem; text-align: center; }
+        label { display: block; font-size: .9rem; margin-bottom: .35rem; color: #374151; }
+        input[type=email], input[type=password] {
+            width: 100%; padding: .6rem .75rem; margin-bottom: 1rem;
+            border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem;
+        }
+        input:focus { outline: 2px solid #2563eb; border-color: #2563eb; }
+        .checkbox { display: flex; align-items: center; gap: .4rem; margin-bottom: 1rem; font-size: .9rem; }
+        button {
+            width: 100%; padding: .7rem; background: #2563eb; color: #fff;
+            border: none; border-radius: 8px; font-size: 1rem; cursor: pointer;
+        }
+        button:hover { background: #1d4ed8; }
+        .errors {
+            background: #fee2e2; color: #991b1b; padding: .6rem .8rem;
+            border-radius: 8px; margin-bottom: 1rem; font-size: .9rem;
+        }
+        .errors ul { margin: 0; padding-left: 1.2rem; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Вход в панель управления</h1>
+
+        @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+        {
+            <div class="errors">
+                <ul>
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <form method="post" asp-page="/Account/Login">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ReturnUrl" />
+
+            <label asp-for="Input.Email"></label>
+            <input asp-for="Input.Email" type="email" autocomplete="username" autofocus />
+
+            <label asp-for="Input.Password"></label>
+            <input asp-for="Input.Password" type="password" autocomplete="current-password" />
+
+            <div class="checkbox">
+                <input asp-for="Input.RememberMe" type="checkbox" />
+                <label asp-for="Input.RememberMe" style="margin:0;"></label>
+            </div>
+
+            <button type="submit">Войти</button>
+        </form>
+    </div>
+</body>
+</html>

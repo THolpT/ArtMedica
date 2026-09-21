@@ -13,11 +13,17 @@
     <SourceRoot Include="/home/holp/.nuget/packages/" />
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Import Project="$(NuGetPackageRoot)mudblazor/8.0.0/buildTransitive/MudBlazor.props" Condition="Exists('$(NuGetPackageRoot)mudblazor/8.0.0/buildTransitive/MudBlazor.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore/10.0.12/buildTransitive/net10.0/Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore/10.0.12/buildTransitive/net10.0/Microsoft.EntityFrameworkCore.props')" />
+    <Import Project="$(NuGetPackageRoot)saritasa.netforge/1.2.0/buildTransitive/Saritasa.NetForge.props" Condition="Exists('$(NuGetPackageRoot)saritasa.netforge/1.2.0/buildTransitive/Saritasa.NetForge.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.codeanalysis.analyzers/3.11.0/buildTransitive/Microsoft.CodeAnalysis.Analyzers.props" Condition="Exists('$(NuGetPackageRoot)microsoft.codeanalysis.analyzers/3.11.0/buildTransitive/Microsoft.CodeAnalysis.Analyzers.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore.design/10.0.12/build/net10.0/Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore.design/10.0.12/build/net10.0/Microsoft.EntityFrameworkCore.Design.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.identity.ui/10.0.12/build/Microsoft.AspNetCore.Identity.UI.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.identity.ui/10.0.12/build/Microsoft.AspNetCore.Identity.UI.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.app.internal.assets/10.0.12/build/Microsoft.AspNetCore.App.Internal.Assets.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.app.internal.assets/10.0.12/build/Microsoft.AspNetCore.App.Internal.Assets.props')" />
+    <Import Project="$(NuGetPackageRoot)coreadmin/4.0.0/buildTransitive/CoreAdmin.props" Condition="Exists('$(NuGetPackageRoot)coreadmin/4.0.0/buildTransitive/CoreAdmin.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgLindhart_Analyser_MissingAwaitWarning Condition=" '$(PkgLindhart_Analyser_MissingAwaitWarning)' == '' ">/home/holp/.nuget/packages/lindhart.analyser.missingawaitwarning/2.0.0</PkgLindhart_Analyser_MissingAwaitWarning>
     <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">/home/holp/.nuget/packages/microsoft.codeanalysis.analyzers/3.11.0</PkgMicrosoft_CodeAnalysis_Analyzers>
   </PropertyGroup>
 </Project>

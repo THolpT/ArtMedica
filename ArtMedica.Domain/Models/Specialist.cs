@@ -16,4 +16,4 @@ public class Specialist
     public ICollection<Qualification> Qualifications {get;set;}
     public ICollection<Accreditation> Accreditations {get;set;}
     public ICollection<OperationResult> operationResults {get;set;}
-}
+} 
