@@ -1,0 +1,50 @@
+.Block1 {
+    background-image: url("../image/your_health.svg");
+    background-repeat: no-repeat;
+    height: 740px;
+    color: white;
+    padding: 80px 100px;
+}
+.t24{
+    font-size: 24px;
+}
+.t36{
+    font-size: 36px;
+}
+.t64{
+    font-size: 64px;
+}
+.Block1_title{
+    font-size: 64px;
+    margin: 0;
+}
+.Block1_title2{
+    font-size: 36px;
+}
+.Block1_text {
+    width: 949px;
+}
+.adventeg {
+    padding: 24px;
+    background-color: rgba(29, 41, 61, 0.4);
+    border-radius: 12px;
+    border: 0;
+    backdrop-filter: blur(60px);
+}
+
+.Block1_boxs {
+    display: flex;
+    gap: 20px;
+}
+.m0 {
+    margin: 0;
+}
+.Block1_phone {
+    height: 52px;
+}
+.Block1_bottom {
+    margin-top: 359px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
