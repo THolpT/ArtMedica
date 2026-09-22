@@ -9,11 +9,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace ArtMedica.Application.Data.Migrations
+namespace ArtMedica.Application.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260921121615_Csad")]
-    partial class Csad
+    [Migration("20260922150621_AddAutoId")]
+    partial class AddAutoId
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,10 +68,10 @@ namespace ArtMedica.Application.Data.Migrations
                         .HasMaxLength(5000)
                         .HasColumnType("character varying(5000)");
 
-                    b.Property<string>("ImgUrl")
+                    b.Property<byte[]>("ImgUrl")
                         .IsRequired()
                         .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("bytea");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -89,10 +89,10 @@ namespace ArtMedica.Application.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("ImgUrl")
+                    b.Property<byte[]>("ImgUrl")
                         .IsRequired()
                         .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("bytea");
 
                     b.Property<Guid>("OperationId")
                         .HasColumnType("uuid");
@@ -127,10 +127,10 @@ namespace ArtMedica.Application.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text[]");
 
-                    b.Property<string>("MainImgUrl")
+                    b.Property<byte[]>("MainImgUrl")
                         .IsRequired()
                         .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("bytea");
 
                     b.Property<int>("MemberCount")
                         .HasColumnType("integer");
@@ -145,6 +145,9 @@ namespace ArtMedica.Application.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(5000)
                         .HasColumnType("character varying(5000)");
+
+                    b.Property<Guid>("SlideInfoId")
+                        .HasColumnType("uuid");
 
                     b.PrimitiveCollection<string[]>("Stages")
                         .IsRequired()
@@ -174,10 +177,10 @@ namespace ArtMedica.Application.Data.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("character varying(2000)");
 
-                    b.Property<string>("ImgUrl")
+                    b.Property<byte[]>("ImgUrl")
                         .IsRequired()
                         .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("bytea");
 
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uuid");
@@ -259,6 +262,10 @@ namespace ArtMedica.Application.Data.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("character varying(300)");
 
+                    b.Property<string>("Types")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -307,10 +314,10 @@ namespace ArtMedica.Application.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<string>("ImgUrl")
+                    b.Property<byte[]>("ImgUrl")
                         .IsRequired()
                         .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
+                        .HasColumnType("bytea");
 
                     b.Property<string>("LastName")
                         .IsRequired()

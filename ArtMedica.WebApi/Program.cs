@@ -1,4 +1,5 @@
 using ArtMedica.Application;
+using DotNetEd.CoreAdmin;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Saritasa.NetForge.Extensions;
@@ -33,6 +34,20 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 builder.Services.AddCoreAdmin("Administrator");
+builder.Services.AddCoreAdmin(new CoreAdminOptions
+{
+    IgnoreEntityTypes = new List<Type>
+    {
+        typeof(IdentityUserRole<string>),
+        typeof(IdentityRole),
+        typeof(IdentityRoleClaim<string>),
+        typeof(IdentityUser),
+        typeof(IdentityUserClaim<string>),
+        typeof(IdentityUserLogin<string>),
+        typeof(IdentityUserToken<string>),
+        typeof(IdentityUserPasskey<string>)
+    }
+});
 
 var app = builder.Build();
 
@@ -45,9 +60,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapDefaultControllerRoute();
-app.MapRazorPages(); // важно для /Account/Login
+app.MapRazorPages();
 
-// Создание администратора
 using (var scope = app.Services.CreateScope())
 {
     await SeedData.InitializeAsync(scope.ServiceProvider);

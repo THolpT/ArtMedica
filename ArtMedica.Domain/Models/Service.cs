@@ -1,8 +1,13 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace ArtMedica.Domain.Models;
 
 public class Service
 {
-    public Guid Id { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public Guid Id { get; set; } = Guid.NewGuid();
     public string NomenclatureCode { get; set; }
     public string MISCode { get; set; }
     public int Duration { get; set; }
@@ -12,7 +17,15 @@ public class Service
     public string Description { get; set; }
     public string Preparation { get; set; }
 
+    [DataType("Markdown")]
+    public string Types { get; set; }
+    public Guid CategoryId { get; set; }
+
+    [ForeignKey(nameof(CategoryId))]
     public ServiceCategory Category { get; set; }
 
-    // TODO: Виды
+    public override string ToString()
+    {
+        return TechnicalTitle;
+    }
 }
