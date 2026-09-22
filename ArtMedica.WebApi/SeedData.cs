@@ -9,8 +9,8 @@ public static class SeedData
 
         const string adminRole = "Administrator";
         const string adminEmail = "admin@artmedica.local";
-        const string adminPassword = "admin123"; 
-        
+        const string adminPassword = "admin123"; // ⚠️ смените после первого входа
+
         if (!await roleManager.RoleExistsAsync(adminRole))
         {
             await roleManager.CreateAsync(new IdentityRole(adminRole));
