@@ -3,27 +3,51 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ArtMedica.Domain.Models;
 
+[Table("Projects")]
 public class Project
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; } = Guid.NewGuid();
-    public string Title { get; set; }
-    public byte[] MainImgUrl { get; set; }
-    public string FirstDescription { get; set; }
-    public string SecondDescription { get; set; }
-    public int SeasonCount { get; set; }
-    public int MemberCount { get; set; }
-    public int ExpertCount { get; set; }
-    public int PartnerCount { get; set; }
-    public Guid SlideInfoId { get; set; }
 
-    [ForeignKey(nameof(SlideInfoId))]
+    [Required, MaxLength(200)]
+    public string Title { get; set; }
+
+    [Required]
+    public Guid MainImgUrlId { get; set; }
+
+    [ForeignKey(nameof(MainImgUrlId))]
+    public MediaFile MainImgUrl { get; set; }
+
+    [MaxLength(2000)]
+    public string FirstDescription { get; set; }
+
+    [MaxLength(2000)]
+    public string SecondDescription { get; set; }
+
+    [Range(0, int.MaxValue)]
+    public int SeasonCount { get; set; }
+
+    [Range(0, int.MaxValue)]
+    public int MemberCount { get; set; }
+
+    [Range(0, int.MaxValue)]
+    public int ExpertCount { get; set; }
+
+    [Range(0, int.MaxValue)]
+    public int PartnerCount { get; set; }
+
     public ProjectSlideInfo SlideInfo { get; set; }
-    public ICollection<ProjectFormat> Formats { get; set; }
-    public ICollection<string> Stages { get; set; }
-    public ICollection<string> Images { get; set; }
-    public ICollection<ProjectPartner> Partners { get; set; }
+
+    [InverseProperty(nameof(ProjectFormat.Project))]
+    public ICollection<ProjectFormat> Formats { get; set; } = new List<ProjectFormat>();
+
+    public ICollection<string> Stages { get; set; } = new List<string>();
+
+    public ICollection<MediaFile> Images { get; set; } = new List<MediaFile>();
+
+    [InverseProperty(nameof(ProjectPartner.Project))]
+    public ICollection<ProjectPartner> Partners { get; set; } = new List<ProjectPartner>();
 
     public override string ToString()
     {

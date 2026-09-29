@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ArtMedica.Application.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260922150621_AddAutoId")]
-    partial class AddAutoId
+    [Migration("20260929125159_UpdateModels")]
+    partial class UpdateModels
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,48 @@ namespace ArtMedica.Application.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("ArtMedica.Domain.Models.Accreditation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<string>("DocumentType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime>("IssuanceDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("JobTitle")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("Specialisation")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<Guid>("SpecialistId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ValidityPeriod")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SpecialistId");
+
+                    b.ToTable("Accreditations");
+                });
 
             modelBuilder.Entity("ArtMedica.Domain.Models.Case", b =>
                 {
@@ -54,7 +96,33 @@ namespace ArtMedica.Application.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cases", (string)null);
+                    b.ToTable("Cases");
+                });
+
+            modelBuilder.Entity("ArtMedica.Domain.Models.MediaFile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("ArtMedica.Domain.Models.New", b =>
@@ -65,22 +133,22 @@ namespace ArtMedica.Application.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(5000)
-                        .HasColumnType("character varying(5000)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
-                    b.Property<byte[]>("ImgUrl")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("bytea");
+                    b.Property<Guid>("ImgUrlId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("News", (string)null);
+                    b.HasIndex("ImgUrlId");
+
+                    b.ToTable("News");
                 });
 
             modelBuilder.Entity("ArtMedica.Domain.Models.OperationResult", b =>
@@ -89,10 +157,8 @@ namespace ArtMedica.Application.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<byte[]>("ImgUrl")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("bytea");
+                    b.Property<Guid>("ImgUrlId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("OperationId")
                         .HasColumnType("uuid");
@@ -101,6 +167,8 @@ namespace ArtMedica.Application.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ImgUrlId");
 
                     b.HasIndex("OperationId");
 
@@ -120,17 +188,11 @@ namespace ArtMedica.Application.Migrations
 
                     b.Property<string>("FirstDescription")
                         .IsRequired()
-                        .HasMaxLength(5000)
-                        .HasColumnType("character varying(5000)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
-                    b.PrimitiveCollection<string[]>("Images")
-                        .IsRequired()
-                        .HasColumnType("text[]");
-
-                    b.Property<byte[]>("MainImgUrl")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("bytea");
+                    b.Property<Guid>("MainImgUrlId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("MemberCount")
                         .HasColumnType("integer");
@@ -143,24 +205,81 @@ namespace ArtMedica.Application.Migrations
 
                     b.Property<string>("SecondDescription")
                         .IsRequired()
-                        .HasMaxLength(5000)
-                        .HasColumnType("character varying(5000)");
-
-                    b.Property<Guid>("SlideInfoId")
-                        .HasColumnType("uuid");
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.PrimitiveCollection<string[]>("Stages")
                         .IsRequired()
-                        .HasColumnType("text[]");
+                        .HasColumnType("text[]")
+                        .HasColumnName("Stages");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MainImgUrlId");
+
                     b.ToTable("Projects", (string)null);
+                });
+
+            modelBuilder.Entity("ArtMedica.Domain.Models.ProjectFormat", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<Guid>("ImgId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImgId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("ProjectFormats");
+                });
+
+            modelBuilder.Entity("ArtMedica.Domain.Models.ProjectPartner", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("ProjectPartners");
                 });
 
             modelBuilder.Entity("ArtMedica.Domain.Models.ProjectSlideInfo", b =>
@@ -177,15 +296,15 @@ namespace ArtMedica.Application.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("character varying(2000)");
 
-                    b.Property<byte[]>("ImgUrl")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("bytea");
+                    b.Property<Guid>("ImgUrlId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ImgUrlId");
 
                     b.HasIndex("ProjectId")
                         .IsUnique();
@@ -204,17 +323,51 @@ namespace ArtMedica.Application.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(5000)
-                        .HasColumnType("character varying(5000)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Promotions", (string)null);
+                    b.ToTable("Promotions");
+                });
+
+            modelBuilder.Entity("ArtMedica.Domain.Models.Qualification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("IssuanceDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Level")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Organization")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<Guid>("SpecialistId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SpecialistId");
+
+                    b.ToTable("Qualifications");
                 });
 
             modelBuilder.Entity("ArtMedica.Domain.Models.Service", b =>
@@ -228,13 +381,13 @@ namespace ArtMedica.Application.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(5000)
-                        .HasColumnType("character varying(5000)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<string>("DisplayTitle")
                         .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<int>("Duration")
                         .HasColumnType("integer");
@@ -251,20 +404,21 @@ namespace ArtMedica.Application.Migrations
 
                     b.Property<string>("Preparation")
                         .IsRequired()
-                        .HasMaxLength(5000)
-                        .HasColumnType("character varying(5000)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("TechnicalTitle")
                         .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("Types")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.HasKey("Id");
 
@@ -297,7 +451,8 @@ namespace ArtMedica.Application.Migrations
 
                     b.PrimitiveCollection<string[]>("ActivityArea")
                         .IsRequired()
-                        .HasColumnType("text[]");
+                        .HasColumnType("text[]")
+                        .HasColumnName("ActivityArea");
 
                     b.Property<string>("Department")
                         .IsRequired()
@@ -306,18 +461,16 @@ namespace ArtMedica.Application.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(5000)
-                        .HasColumnType("character varying(5000)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<byte[]>("ImgUrl")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("bytea");
+                    b.Property<Guid>("ImgId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -338,7 +491,16 @@ namespace ArtMedica.Application.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid>("VideoId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ImgId");
+
+                    b.HasIndex("LastName");
+
+                    b.HasIndex("VideoId");
 
                     b.ToTable("Specialists", (string)null);
                 });
@@ -543,8 +705,51 @@ namespace ArtMedica.Application.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ProjectImages", b =>
+                {
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("FileId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("ProjectId", "FileId");
+
+                    b.HasIndex("FileId");
+
+                    b.ToTable("ProjectImages", (string)null);
+                });
+
+            modelBuilder.Entity("ArtMedica.Domain.Models.Accreditation", b =>
+                {
+                    b.HasOne("ArtMedica.Domain.Models.Specialist", "Specialist")
+                        .WithMany("Accreditations")
+                        .HasForeignKey("SpecialistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Specialist");
+                });
+
+            modelBuilder.Entity("ArtMedica.Domain.Models.New", b =>
+                {
+                    b.HasOne("ArtMedica.Domain.Models.MediaFile", "ImgUrl")
+                        .WithMany()
+                        .HasForeignKey("ImgUrlId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ImgUrl");
+                });
+
             modelBuilder.Entity("ArtMedica.Domain.Models.OperationResult", b =>
                 {
+                    b.HasOne("ArtMedica.Domain.Models.MediaFile", "ImgUrl")
+                        .WithMany()
+                        .HasForeignKey("ImgUrlId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ArtMedica.Domain.Models.Service", "Operation")
                         .WithMany()
                         .HasForeignKey("OperationId")
@@ -557,6 +762,8 @@ namespace ArtMedica.Application.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("ImgUrl");
+
                     b.Navigation("Operation");
 
                     b.Navigation("Specialist");
@@ -564,87 +771,73 @@ namespace ArtMedica.Application.Migrations
 
             modelBuilder.Entity("ArtMedica.Domain.Models.Project", b =>
                 {
-                    b.OwnsMany("ArtMedica.Domain.Models.ProjectFormat", "Formats", b1 =>
-                        {
-                            b1.Property<Guid>("ProjectId")
-                                .HasColumnType("uuid");
+                    b.HasOne("ArtMedica.Domain.Models.MediaFile", "MainImgUrl")
+                        .WithMany()
+                        .HasForeignKey("MainImgUrlId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
+                    b.Navigation("MainImgUrl");
+                });
 
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
+            modelBuilder.Entity("ArtMedica.Domain.Models.ProjectFormat", b =>
+                {
+                    b.HasOne("ArtMedica.Domain.Models.MediaFile", "Img")
+                        .WithMany()
+                        .HasForeignKey("ImgId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                            b1.Property<string>("Description")
-                                .IsRequired()
-                                .HasMaxLength(2000)
-                                .HasColumnType("character varying(2000)");
+                    b.HasOne("ArtMedica.Domain.Models.Project", "Project")
+                        .WithMany("Formats")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                            b1.Property<string>("ImgUrl")
-                                .IsRequired()
-                                .HasMaxLength(1000)
-                                .HasColumnType("character varying(1000)");
+                    b.Navigation("Img");
 
-                            b1.Property<string>("Title")
-                                .IsRequired()
-                                .HasMaxLength(200)
-                                .HasColumnType("character varying(200)");
+                    b.Navigation("Project");
+                });
 
-                            b1.HasKey("ProjectId", "Id");
+            modelBuilder.Entity("ArtMedica.Domain.Models.ProjectPartner", b =>
+                {
+                    b.HasOne("ArtMedica.Domain.Models.Project", "Project")
+                        .WithMany("Partners")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                            b1.ToTable("ProjectFormats", (string)null);
-
-                            b1.WithOwner("Project")
-                                .HasForeignKey("ProjectId");
-
-                            b1.Navigation("Project");
-                        });
-
-                    b.OwnsMany("ArtMedica.Domain.Models.ProjectPartner", "Partners", b1 =>
-                        {
-                            b1.Property<Guid>("ProjectId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
-
-                            b1.Property<string>("Description")
-                                .IsRequired()
-                                .HasMaxLength(2000)
-                                .HasColumnType("character varying(2000)");
-
-                            b1.Property<string>("Title")
-                                .IsRequired()
-                                .HasMaxLength(200)
-                                .HasColumnType("character varying(200)");
-
-                            b1.HasKey("ProjectId", "Id");
-
-                            b1.ToTable("ProjectPartners", (string)null);
-
-                            b1.WithOwner("Project")
-                                .HasForeignKey("ProjectId");
-
-                            b1.Navigation("Project");
-                        });
-
-                    b.Navigation("Formats");
-
-                    b.Navigation("Partners");
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("ArtMedica.Domain.Models.ProjectSlideInfo", b =>
                 {
+                    b.HasOne("ArtMedica.Domain.Models.MediaFile", "ImgUrl")
+                        .WithMany()
+                        .HasForeignKey("ImgUrlId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("ArtMedica.Domain.Models.Project", "Project")
                         .WithOne("SlideInfo")
                         .HasForeignKey("ArtMedica.Domain.Models.ProjectSlideInfo", "ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("ImgUrl");
+
                     b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("ArtMedica.Domain.Models.Qualification", b =>
+                {
+                    b.HasOne("ArtMedica.Domain.Models.Specialist", "Specialist")
+                        .WithMany("Qualifications")
+                        .HasForeignKey("SpecialistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Specialist");
                 });
 
             modelBuilder.Entity("ArtMedica.Domain.Models.Service", b =>
@@ -660,95 +853,21 @@ namespace ArtMedica.Application.Migrations
 
             modelBuilder.Entity("ArtMedica.Domain.Models.Specialist", b =>
                 {
-                    b.OwnsMany("ArtMedica.Domain.Models.Accreditation", "Accreditations", b1 =>
-                        {
-                            b1.Property<Guid>("SpecialistId")
-                                .HasColumnType("uuid");
+                    b.HasOne("ArtMedica.Domain.Models.MediaFile", "Img")
+                        .WithMany()
+                        .HasForeignKey("ImgId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
+                    b.HasOne("ArtMedica.Domain.Models.MediaFile", "Video")
+                        .WithMany()
+                        .HasForeignKey("VideoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
+                    b.Navigation("Img");
 
-                            b1.Property<string>("Description")
-                                .IsRequired()
-                                .HasMaxLength(2000)
-                                .HasColumnType("character varying(2000)");
-
-                            b1.Property<string>("DocumentType")
-                                .IsRequired()
-                                .HasMaxLength(200)
-                                .HasColumnType("character varying(200)");
-
-                            b1.Property<DateTime>("IssuanceDate")
-                                .HasColumnType("timestamp with time zone");
-
-                            b1.Property<string>("JobTitle")
-                                .IsRequired()
-                                .HasMaxLength(200)
-                                .HasColumnType("character varying(200)");
-
-                            b1.Property<string>("Specialisation")
-                                .IsRequired()
-                                .HasMaxLength(300)
-                                .HasColumnType("character varying(300)");
-
-                            b1.Property<DateTime>("ValidityPeriod")
-                                .HasColumnType("timestamp with time zone");
-
-                            b1.HasKey("SpecialistId", "Id");
-
-                            b1.ToTable("SpecialistAccreditations", (string)null);
-
-                            b1.WithOwner("Specialist")
-                                .HasForeignKey("SpecialistId");
-
-                            b1.Navigation("Specialist");
-                        });
-
-                    b.OwnsMany("ArtMedica.Domain.Models.Qualification", "Qualifications", b1 =>
-                        {
-                            b1.Property<Guid>("SpecialistId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
-
-                            b1.Property<DateTime>("IssuanceDate")
-                                .HasColumnType("timestamp with time zone");
-
-                            b1.Property<string>("Level")
-                                .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("character varying(100)");
-
-                            b1.Property<string>("Organization")
-                                .IsRequired()
-                                .HasMaxLength(300)
-                                .HasColumnType("character varying(300)");
-
-                            b1.Property<string>("Title")
-                                .IsRequired()
-                                .HasMaxLength(300)
-                                .HasColumnType("character varying(300)");
-
-                            b1.HasKey("SpecialistId", "Id");
-
-                            b1.ToTable("SpecialistQualifications", (string)null);
-
-                            b1.WithOwner("Specialist")
-                                .HasForeignKey("SpecialistId");
-
-                            b1.Navigation("Specialist");
-                        });
-
-                    b.Navigation("Accreditations");
-
-                    b.Navigation("Qualifications");
+                    b.Navigation("Video");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -802,8 +921,27 @@ namespace ArtMedica.Application.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ProjectImages", b =>
+                {
+                    b.HasOne("ArtMedica.Domain.Models.MediaFile", null)
+                        .WithMany()
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ArtMedica.Domain.Models.Project", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ArtMedica.Domain.Models.Project", b =>
                 {
+                    b.Navigation("Formats");
+
+                    b.Navigation("Partners");
+
                     b.Navigation("SlideInfo")
                         .IsRequired();
                 });
@@ -815,6 +953,10 @@ namespace ArtMedica.Application.Migrations
 
             modelBuilder.Entity("ArtMedica.Domain.Models.Specialist", b =>
                 {
+                    b.Navigation("Accreditations");
+
+                    b.Navigation("Qualifications");
+
                     b.Navigation("operationResults");
                 });
 #pragma warning restore 612, 618

@@ -2,7 +2,7 @@ using ArtMedica.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ArtMedica.Application.Configurations;
+namespace ArtMedica.Infrastructure.Configurations;
 
 public class ProjectConfiguration : IEntityTypeConfiguration<Project>
 {
@@ -10,59 +10,55 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
     {
         builder.ToTable("Projects");
 
-        builder.HasKey(p => p.Id);
+        builder.HasKey(x => x.Id);
 
-        builder.Property(p => p.Title)
-            .IsRequired()
-            .HasMaxLength(300);
+        builder.Property(x => x.Title)
+               .IsRequired()
+               .HasMaxLength(200);
 
-        builder.Property(p => p.MainImgUrl)
-            .HasMaxLength(1000);
+        builder.Property(x => x.FirstDescription).HasMaxLength(2000);
+        builder.Property(x => x.SecondDescription).HasMaxLength(2000);
 
-        builder.Property(p => p.FirstDescription)
-            .HasMaxLength(5000);
+        // --- Примитивная коллекция Stages ---
+        // EF Core 8+ поддерживает нативно. Для EF Core 7- используйте value converter (см. ниже).
+        builder.PrimitiveCollection(x => x.Stages)
+               .HasColumnName("Stages");
 
-        builder.Property(p => p.SecondDescription)
-            .HasMaxLength(5000);
+        // Основная картинка
+        builder.HasOne(x => x.MainImgUrl)
+               .WithMany()
+               .HasForeignKey(x => x.MainImgUrlId)
+               .OnDelete(DeleteBehavior.Restrict);
 
-        builder.Property(p => p.SeasonCount)
-            .IsRequired();
+        // Один-к-одному с ProjectSlideInfo, ведущая сторона — ProjectSlideInfo
+        builder.HasOne(x => x.SlideInfo)
+               .WithOne(s => s.Project)
+               .HasForeignKey<ProjectSlideInfo>(s => s.ProjectId)
+               .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Property(p => p.MemberCount)
-            .IsRequired();
+        // Форматы проекта
+        builder.HasMany(x => x.Formats)
+               .WithOne(f => f.Project)
+               .HasForeignKey(f => f.ProjectId)
+               .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Property(p => p.ExpertCount)
-            .IsRequired();
+        // Партнёры проекта
+        builder.HasMany(x => x.Partners)
+               .WithOne(p => p.Project)
+               .HasForeignKey(p => p.ProjectId)
+               .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Property(p => p.PartnerCount)
-            .IsRequired();
-
-        // 1:1 — ProjectSlideInfo
-        builder.HasOne(p => p.SlideInfo)
-            .WithOne(s => s.Project)
-            .HasForeignKey<ProjectSlideInfo>(s => s.ProjectId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        // 1:N — ProjectFormat (owned)
-        builder.OwnsMany(p => p.Formats, f =>
-        {
-            f.ToTable("ProjectFormats");
-            f.WithOwner(x => x.Project).HasForeignKey("ProjectId");
-            f.Property(x => x.Title).IsRequired().HasMaxLength(200);
-            f.Property(x => x.Description).HasMaxLength(2000);
-            f.Property(x => x.ImgUrl).HasMaxLength(1000);
-        });
-
-        // 1:N — ProjectPartner (owned)
-        builder.OwnsMany(p => p.Partners, pt =>
-        {
-            pt.ToTable("ProjectPartners");
-            pt.WithOwner(x => x.Project).HasForeignKey("ProjectId");
-            pt.Property(x => x.Title).IsRequired().HasMaxLength(200);
-            pt.Property(x => x.Description).HasMaxLength(2000);
-        });
-
-        builder.PrimitiveCollection(p => p.Stages);
-        builder.PrimitiveCollection(p => p.Images);
+        // Изображения проекта (many-to-many без явной сущности-связки)
+        builder.HasMany(x => x.Images)
+               .WithMany()
+               .UsingEntity<Dictionary<string, object>>(
+                   "ProjectImages",
+                   j => j.HasOne<MediaFile>().WithMany().HasForeignKey("FileId").OnDelete(DeleteBehavior.Cascade),
+                   j => j.HasOne<Project>().WithMany().HasForeignKey("ProjectId").OnDelete(DeleteBehavior.Cascade),
+                   j =>
+                   {
+                       j.ToTable("ProjectImages");
+                       j.HasKey("ProjectId", "FileId");
+                   });
     }
 }

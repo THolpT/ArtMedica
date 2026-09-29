@@ -9,16 +9,12 @@ public class ServiceCategoryConfiguration : IEntityTypeConfiguration<ServiceCate
     public void Configure(EntityTypeBuilder<ServiceCategory> builder)
     {
         builder.ToTable("ServiceCategories");
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Title).IsRequired().HasMaxLength(200);
 
-        builder.HasKey(c => c.Id);
-
-        builder.Property(c => c.Title)
-            .IsRequired()
-            .HasMaxLength(200);
-
-        builder.HasMany(c => c.Services)
-            .WithOne(s => s.Category)
-            .HasForeignKey("CategoryId")
-            .OnDelete(DeleteBehavior.Restrict);
+        builder.HasMany(x => x.Services)
+               .WithOne(s => s.Category)
+               .HasForeignKey(s => s.CategoryId)
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }

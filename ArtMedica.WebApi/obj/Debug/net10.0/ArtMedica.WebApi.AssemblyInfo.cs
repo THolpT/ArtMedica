@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ArtMedica.WebApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c9e001e7b75bf63157f0d6e6959262e96a02fb46")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a7268dfa82e60e522d26f946d58d1b4d6c2c1e44")]
 [assembly: System.Reflection.AssemblyProductAttribute("ArtMedica.WebApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ArtMedica.WebApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

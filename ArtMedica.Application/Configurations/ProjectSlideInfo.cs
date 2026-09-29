@@ -10,17 +10,22 @@ public class ProjectSlideInfoConfiguration : IEntityTypeConfiguration<ProjectSli
     {
         builder.ToTable("ProjectSlideInfos");
 
-        builder.HasKey(s => s.Id);
+        builder.HasKey(x => x.Id);
 
-        builder.Property(s => s.Description)
-            .HasMaxLength(2000);
+        builder.Property(x => x.Description)
+               .HasMaxLength(2000);
 
-        builder.Property(s => s.ImgUrl)
-            .HasMaxLength(1000);
+        builder.Property(x => x.Date)
+               .IsRequired();
 
-        builder.Property(s => s.Date)
-            .IsRequired();
+        builder.HasOne(x => x.Project)
+               .WithOne(p => p.SlideInfo)
+               .HasForeignKey<ProjectSlideInfo>(x => x.ProjectId)
+               .OnDelete(DeleteBehavior.Cascade);
 
-        // Связь настроена в ProjectConfiguration
+        builder.HasOne(x => x.ImgUrl)
+               .WithMany()
+               .HasForeignKey(x => x.ImgUrlId)
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }

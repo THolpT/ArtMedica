@@ -9,38 +9,20 @@ public class ServiceConfiguration : IEntityTypeConfiguration<Service>
     public void Configure(EntityTypeBuilder<Service> builder)
     {
         builder.ToTable("Services");
+        builder.HasKey(x => x.Id);
 
-        builder.HasKey(s => s.Id);
+        builder.Property(x => x.Price).HasColumnType("decimal(18,2)");
+        builder.Property(x => x.NomenclatureCode).IsRequired().HasMaxLength(50);
+        builder.Property(x => x.MISCode).IsRequired().HasMaxLength(50);
+        builder.Property(x => x.DisplayTitle).IsRequired().HasMaxLength(200);
+        builder.Property(x => x.TechnicalTitle).IsRequired().HasMaxLength(200);
+        builder.Property(x => x.Description).HasMaxLength(2000);
+        builder.Property(x => x.Preparation).HasMaxLength(2000);
+        builder.Property(x => x.Types).HasMaxLength(2000);
 
-        builder.Property(s => s.NomenclatureCode)
-            .HasMaxLength(50);
-
-        builder.Property(s => s.MISCode)
-            .HasMaxLength(50);
-
-        builder.Property(s => s.Duration)
-            .IsRequired();
-
-        builder.Property(s => s.Price)
-            .HasColumnType("decimal(18,2)")
-            .IsRequired();
-
-        builder.Property(s => s.DisplayTitle)
-            .IsRequired()
-            .HasMaxLength(300);
-
-        builder.Property(s => s.TechnicalTitle)
-            .HasMaxLength(300);
-
-        builder.Property(s => s.Description)
-            .HasMaxLength(5000);
-
-        builder.Property(s => s.Preparation)
-            .HasMaxLength(5000);
-
-        builder.HasOne(s => s.Category)
-            .WithMany(c => c.Services)
-            .HasForeignKey("CategoryId")
-            .OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x => x.Category)
+               .WithMany(c => c.Services)
+               .HasForeignKey(x => x.CategoryId)
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }

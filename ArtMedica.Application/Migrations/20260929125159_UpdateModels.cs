@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ArtMedica.Application.Migrations
 {
     /// <inheritdoc />
-    public partial class AddAutoId : Migration
+    public partial class UpdateModels : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -68,39 +68,17 @@ namespace ArtMedica.Application.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "News",
+                name: "Files",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
-                    ImgUrl = table.Column<byte[]>(type: "bytea", maxLength: 1000, nullable: false),
-                    Description = table.Column<string>(type: "character varying(5000)", maxLength: 5000, nullable: false)
+                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    Type = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Url = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_News", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Projects",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
-                    MainImgUrl = table.Column<byte[]>(type: "bytea", maxLength: 1000, nullable: false),
-                    FirstDescription = table.Column<string>(type: "character varying(5000)", maxLength: 5000, nullable: false),
-                    SecondDescription = table.Column<string>(type: "character varying(5000)", maxLength: 5000, nullable: false),
-                    SeasonCount = table.Column<int>(type: "integer", nullable: false),
-                    MemberCount = table.Column<int>(type: "integer", nullable: false),
-                    ExpertCount = table.Column<int>(type: "integer", nullable: false),
-                    PartnerCount = table.Column<int>(type: "integer", nullable: false),
-                    SlideInfoId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Stages = table.Column<string[]>(type: "text[]", nullable: false),
-                    Images = table.Column<string[]>(type: "text[]", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Projects", x => x.Id);
+                    table.PrimaryKey("PK_Files", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -108,8 +86,8 @@ namespace ArtMedica.Application.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Title = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
-                    Description = table.Column<string>(type: "character varying(5000)", maxLength: 5000, nullable: false),
+                    Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
                     Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -127,27 +105,6 @@ namespace ArtMedica.Application.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ServiceCategories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Specialists",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    FirstName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    MidName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    LastName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Department = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    Description = table.Column<string>(type: "character varying(5000)", maxLength: 5000, nullable: false),
-                    ImgUrl = table.Column<byte[]>(type: "bytea", maxLength: 1000, nullable: false),
-                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    OperationsCount = table.Column<int>(type: "integer", nullable: false),
-                    PositiveReviewsPercentage = table.Column<byte>(type: "smallint", nullable: false),
-                    ActivityArea = table.Column<string[]>(type: "text[]", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Specialists", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -257,67 +214,83 @@ namespace ArtMedica.Application.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProjectFormats",
+                name: "News",
                 columns: table => new
                 {
-                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    Description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
-                    ImgUrl = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProjectFormats", x => new { x.ProjectId, x.Id });
-                    table.ForeignKey(
-                        name: "FK_ProjectFormats_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProjectPartners",
-                columns: table => new
-                {
-                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    ImgUrlId = table.Column<Guid>(type: "uuid", nullable: false),
                     Description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectPartners", x => new { x.ProjectId, x.Id });
+                    table.PrimaryKey("PK_News", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProjectPartners_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
+                        name: "FK_News_Files_ImgUrlId",
+                        column: x => x.ImgUrlId,
+                        principalTable: "Files",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProjectSlideInfos",
+                name: "Projects",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
-                    ImgUrl = table.Column<byte[]>(type: "bytea", maxLength: 1000, nullable: false),
-                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false)
+                    Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    MainImgUrlId = table.Column<Guid>(type: "uuid", nullable: false),
+                    FirstDescription = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    SecondDescription = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    SeasonCount = table.Column<int>(type: "integer", nullable: false),
+                    MemberCount = table.Column<int>(type: "integer", nullable: false),
+                    ExpertCount = table.Column<int>(type: "integer", nullable: false),
+                    PartnerCount = table.Column<int>(type: "integer", nullable: false),
+                    Stages = table.Column<string[]>(type: "text[]", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectSlideInfos", x => x.Id);
+                    table.PrimaryKey("PK_Projects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProjectSlideInfos_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
+                        name: "FK_Projects_Files_MainImgUrlId",
+                        column: x => x.MainImgUrlId,
+                        principalTable: "Files",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Specialists",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    FirstName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    MidName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Department = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    ImgId = table.Column<Guid>(type: "uuid", nullable: false),
+                    VideoId = table.Column<Guid>(type: "uuid", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    OperationsCount = table.Column<int>(type: "integer", nullable: false),
+                    PositiveReviewsPercentage = table.Column<byte>(type: "smallint", nullable: false),
+                    ActivityArea = table.Column<string[]>(type: "text[]", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Specialists", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Specialists_Files_ImgId",
+                        column: x => x.ImgId,
+                        principalTable: "Files",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Specialists_Files_VideoId",
+                        column: x => x.VideoId,
+                        principalTable: "Files",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -329,11 +302,11 @@ namespace ArtMedica.Application.Migrations
                     MISCode = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Duration = table.Column<int>(type: "integer", nullable: false),
                     Price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    DisplayTitle = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
-                    TechnicalTitle = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
-                    Description = table.Column<string>(type: "character varying(5000)", maxLength: 5000, nullable: false),
-                    Preparation = table.Column<string>(type: "character varying(5000)", maxLength: 5000, nullable: false),
-                    Types = table.Column<string>(type: "text", nullable: false),
+                    DisplayTitle = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    TechnicalTitle = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    Preparation = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    Types = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
                     CategoryId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -348,24 +321,121 @@ namespace ArtMedica.Application.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SpecialistAccreditations",
+                name: "ProjectFormats",
                 columns: table => new
                 {
-                    SpecialistId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    DocumentType = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    Specialisation = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
-                    JobTitle = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    IssuanceDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ValidityPeriod = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    ImgId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SpecialistAccreditations", x => new { x.SpecialistId, x.Id });
+                    table.PrimaryKey("PK_ProjectFormats", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SpecialistAccreditations_Specialists_SpecialistId",
+                        name: "FK_ProjectFormats_Files_ImgId",
+                        column: x => x.ImgId,
+                        principalTable: "Files",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProjectFormats_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjectImages",
+                columns: table => new
+                {
+                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false),
+                    FileId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectImages", x => new { x.ProjectId, x.FileId });
+                    table.ForeignKey(
+                        name: "FK_ProjectImages_Files_FileId",
+                        column: x => x.FileId,
+                        principalTable: "Files",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProjectImages_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjectPartners",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectPartners", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProjectPartners_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjectSlideInfos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    ImgUrlId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ProjectId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectSlideInfos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProjectSlideInfos_Files_ImgUrlId",
+                        column: x => x.ImgUrlId,
+                        principalTable: "Files",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ProjectSlideInfos_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Accreditations",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DocumentType = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Specialisation = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    JobTitle = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    IssuanceDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ValidityPeriod = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    SpecialistId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Accreditations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Accreditations_Specialists_SpecialistId",
                         column: x => x.SpecialistId,
                         principalTable: "Specialists",
                         principalColumn: "Id",
@@ -373,22 +443,21 @@ namespace ArtMedica.Application.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SpecialistQualifications",
+                name: "Qualifications",
                 columns: table => new
                 {
-                    SpecialistId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     Level = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Organization = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
-                    IssuanceDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    Organization = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    IssuanceDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    SpecialistId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SpecialistQualifications", x => new { x.SpecialistId, x.Id });
+                    table.PrimaryKey("PK_Qualifications", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SpecialistQualifications_Specialists_SpecialistId",
+                        name: "FK_Qualifications_Specialists_SpecialistId",
                         column: x => x.SpecialistId,
                         principalTable: "Specialists",
                         principalColumn: "Id",
@@ -400,13 +469,19 @@ namespace ArtMedica.Application.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ImgUrl = table.Column<byte[]>(type: "bytea", maxLength: 1000, nullable: false),
+                    ImgUrlId = table.Column<Guid>(type: "uuid", nullable: false),
                     OperationId = table.Column<Guid>(type: "uuid", nullable: false),
                     SpecialistId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OperationResults", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OperationResults_Files_ImgUrlId",
+                        column: x => x.ImgUrlId,
+                        principalTable: "Files",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_OperationResults_Services_OperationId",
                         column: x => x.OperationId,
@@ -420,6 +495,11 @@ namespace ArtMedica.Application.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accreditations_SpecialistId",
+                table: "Accreditations",
+                column: "SpecialistId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -459,6 +539,16 @@ namespace ArtMedica.Application.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_News_ImgUrlId",
+                table: "News",
+                column: "ImgUrlId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OperationResults_ImgUrlId",
+                table: "OperationResults",
+                column: "ImgUrlId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OperationResults_OperationId",
                 table: "OperationResults",
                 column: "OperationId");
@@ -469,20 +559,73 @@ namespace ArtMedica.Application.Migrations
                 column: "SpecialistId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProjectFormats_ImgId",
+                table: "ProjectFormats",
+                column: "ImgId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectFormats_ProjectId",
+                table: "ProjectFormats",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectImages_FileId",
+                table: "ProjectImages",
+                column: "FileId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectPartners_ProjectId",
+                table: "ProjectPartners",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_MainImgUrlId",
+                table: "Projects",
+                column: "MainImgUrlId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectSlideInfos_ImgUrlId",
+                table: "ProjectSlideInfos",
+                column: "ImgUrlId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProjectSlideInfos_ProjectId",
                 table: "ProjectSlideInfos",
                 column: "ProjectId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Qualifications_SpecialistId",
+                table: "Qualifications",
+                column: "SpecialistId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Services_CategoryId",
                 table: "Services",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Specialists_ImgId",
+                table: "Specialists",
+                column: "ImgId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Specialists_LastName",
+                table: "Specialists",
+                column: "LastName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Specialists_VideoId",
+                table: "Specialists",
+                column: "VideoId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Accreditations");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -511,6 +654,9 @@ namespace ArtMedica.Application.Migrations
                 name: "ProjectFormats");
 
             migrationBuilder.DropTable(
+                name: "ProjectImages");
+
+            migrationBuilder.DropTable(
                 name: "ProjectPartners");
 
             migrationBuilder.DropTable(
@@ -520,10 +666,7 @@ namespace ArtMedica.Application.Migrations
                 name: "Promotions");
 
             migrationBuilder.DropTable(
-                name: "SpecialistAccreditations");
-
-            migrationBuilder.DropTable(
-                name: "SpecialistQualifications");
+                name: "Qualifications");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -542,6 +685,9 @@ namespace ArtMedica.Application.Migrations
 
             migrationBuilder.DropTable(
                 name: "ServiceCategories");
+
+            migrationBuilder.DropTable(
+                name: "Files");
         }
     }
 }
