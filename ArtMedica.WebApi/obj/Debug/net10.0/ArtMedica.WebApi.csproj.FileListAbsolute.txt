@@ -340,3 +340,7 @@
 /mnt/second_disk/projects/ArtMedica.WebApi/obj/Debug/net10.0/ArtMedica.WebApi.pdb
 /mnt/second_disk/projects/ArtMedica.WebApi/obj/Debug/net10.0/ArtMedica.WebApi.genruntimeconfig.cache
 /mnt/second_disk/projects/ArtMedica.WebApi/obj/Debug/net10.0/ref/ArtMedica.WebApi.dll
+/mnt/second_disk/projects/ArtMedica.WebApi/obj/Debug/net10.0/compressed/4cvqsc91k1-{0}-v89vaevw83-v89vaevw83.gz
+/mnt/second_disk/projects/ArtMedica.WebApi/bin/Debug/net10.0/Swashbuckle.AspNetCore.Swagger.dll
+/mnt/second_disk/projects/ArtMedica.WebApi/bin/Debug/net10.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/mnt/second_disk/projects/ArtMedica.WebApi/bin/Debug/net10.0/Swashbuckle.AspNetCore.SwaggerUI.dll

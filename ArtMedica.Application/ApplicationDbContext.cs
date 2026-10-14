@@ -21,10 +21,16 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     public virtual DbSet<Promotion> Promotions { get; set; }
     public virtual DbSet<ServiceCategory> ServiceCategories { get; set; }
     public virtual DbSet<Specialist> Specialists { get; set; }
+    public virtual DbSet<MediaFile> MediaFiles { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
+        modelBuilder.Entity<Case>()
+        .Property(x => x.Date)
+        .HasColumnType("timestamp without time zone");
 
         base.OnModelCreating(modelBuilder);
     }

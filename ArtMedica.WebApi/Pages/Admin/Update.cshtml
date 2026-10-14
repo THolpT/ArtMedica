@@ -1,0 +1,103 @@
+@page
+@using ArtMedica.WebApi.Abstractions
+@model ArtMedica.WebApi.Pages.Admin.EntityEditModel
+@inject IServiceProvider Services
+
+<link rel="stylesheet" href="~/admin.css" asp-append-version="true" />
+
+@{
+    ViewData["Title"] = $"Изменение — {Model.Definition.Label}";
+}
+
+<div class="admin-page">
+
+    <div class="admin-header">
+        <div>
+            <div class="admin-breadcrumb">
+                Администрирование /
+                <a asp-page="/Admin/Entity"
+                   asp-route-entity="@Model.EntityRoute">
+                    @Model.Definition.Label
+                </a>
+                / Изменение
+            </div>
+
+            <h1 class="admin-title">Изменение записи</h1>
+
+            <p class="admin-subtitle">
+                Редактирование раздела «@Model.Definition.Label»
+            </p>
+        </div>
+    </div>
+
+    <div class="admin-card">
+
+        <div class="admin-card-header">
+            <h2>Данные записи</h2>
+        </div>
+
+        <form method="post" class="admin-form">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" asp-for="Entity" />
+            <input type="hidden" asp-for="Id" />
+
+            <div asp-validation-summary="ModelOnly"
+                 class="admin-validation-summary">
+            </div>
+
+            @foreach (var field in Model.Definition.Fields)
+            {
+                var error = Model.GetError(field);
+
+                <div class="admin-form-field">
+
+                    <div class="admin-form-input">
+                        @await field.Field.RenderAsync(
+                            new AdminFieldRenderContext
+                            {
+                                Definition = field,
+                                Value = Model.GetValue(field),
+                                Error = error,
+                                Services = Services
+                            })
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(field.Placeholder))
+                    {
+                        <div class="admin-form-placeholder">
+                            @field.Placeholder
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(error))
+                    {
+                        <div class="admin-field-error">
+                            @error
+                        </div>
+                    }
+
+                </div>
+            }
+
+            <div class="admin-form-actions">
+
+                <button type="submit"
+                        class="admin-button admin-button-primary">
+                    Сохранить
+                </button>
+
+                <a class="admin-button"
+                   asp-page="/Admin/Entity"
+                   asp-route-entity="@Model.EntityRoute">
+                    Отмена
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

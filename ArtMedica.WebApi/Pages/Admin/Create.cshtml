@@ -1,0 +1,124 @@
+@page
+@using ArtMedica.WebApi.Abstractions
+@model ArtMedica.WebApi.Pages.Admin.CreateModel
+@inject IServiceProvider Services
+
+<link rel="stylesheet" href="~/admin.css" asp-append-version="true" />
+
+@{
+    ViewData["Title"] = $"Создание — {Model.Definition.Label}";
+}
+
+
+<div class="admin-layout">
+
+    @await Html.PartialAsync(
+        "_AdminSidebar",
+        Model.Entities
+    )
+
+    <main class="admin-main">
+        <div class="admin-page">
+        <div class="admin-header">
+        <div>
+            <div class="admin-breadcrumb">
+                Администрирование /
+                <a asp-page="/Admin/List"
+                   asp-route-entity="@Model.EntityRoute">
+                    @Model.Definition.Label
+                </a>
+                / Создание
+            </div>
+
+            <h1 class="admin-title">
+                Создание записи
+            </h1>
+
+            <p class="admin-subtitle">
+                Создание новой записи: @Model.Definition.Label
+            </p>
+        </div>
+    </div>
+
+
+    <div class="admin-card">
+
+        <div class="admin-card-header">
+            <div>
+                <h2>
+                    Новая запись
+                </h2>
+            </div>
+        </div>
+
+
+        <form method="post"
+              class="admin-form" enctype="multipart/form-data">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly"
+                 class="admin-validation-summary">
+            </div>
+
+
+            @foreach (var field in Model.Definition.Fields)
+            {
+                if (field.Label == "ID") continue;
+                var error = Model.GetError(field);
+
+                <div class="admin-form-field">
+
+                    <div class="admin-form-input">
+                        @await field.Field.RenderAsync(
+                            new AdminFieldRenderContext
+                            {
+                                Definition = field,
+                                Value = null,
+                                Error = error,
+                                Services = Services
+                            })
+                    </div>
+
+
+                    @if (!string.IsNullOrWhiteSpace(field.Placeholder))
+                    {
+                        <div class="admin-form-placeholder">
+                            @field.Placeholder
+                        </div>
+                    }
+
+
+                    @if (!string.IsNullOrWhiteSpace(error))
+                    {
+                        <div class="admin-field-error">
+                            @error
+                        </div>
+                    }
+
+                </div>
+            }
+
+
+            <div class="admin-form-actions">
+
+                <button type="submit"
+                        class="admin-button admin-button-primary">
+                    Создать
+                </button>
+
+                <a class="admin-button"
+                   asp-page="/Admin/Entity"
+                   asp-route-entity="@Model.EntityRoute">
+                    Отмена
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+    </div>
+    </main>
+
+</div>

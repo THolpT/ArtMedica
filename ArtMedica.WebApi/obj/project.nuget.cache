@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Tk3mz4kM9qA=",
+  "dgSpecHash": "0YXybsOd8Wg=",
   "success": true,
   "projectFilePath": "/mnt/second_disk/projects/ArtMedica.WebApi/ArtMedica.WebApi.csproj",
   "expectedPackageFiles": [
@@ -113,6 +113,9 @@
     "/home/holp/.nuget/packages/pluralizeservice.core/1.2.21147.2/pluralizeservice.core.1.2.21147.2.nupkg.sha512",
     "/home/holp/.nuget/packages/saritasa.netforge/1.2.0/saritasa.netforge.1.2.0.nupkg.sha512",
     "/home/holp/.nuget/packages/saritasa.tools.common/5.0.0/saritasa.tools.common.5.0.0.nupkg.sha512",
+    "/home/holp/.nuget/packages/swashbuckle.aspnetcore.swagger/10.3.0/swashbuckle.aspnetcore.swagger.10.3.0.nupkg.sha512",
+    "/home/holp/.nuget/packages/swashbuckle.aspnetcore.swaggergen/10.3.0/swashbuckle.aspnetcore.swaggergen.10.3.0.nupkg.sha512",
+    "/home/holp/.nuget/packages/swashbuckle.aspnetcore.swaggerui/10.3.0/swashbuckle.aspnetcore.swaggerui.10.3.0.nupkg.sha512",
     "/home/holp/.nuget/packages/system.codedom/6.0.0/system.codedom.6.0.0.nupkg.sha512",
     "/home/holp/.nuget/packages/system.composition/9.0.0/system.composition.9.0.0.nupkg.sha512",
     "/home/holp/.nuget/packages/system.composition.attributedmodel/9.0.0/system.composition.attributedmodel.9.0.0.nupkg.sha512",

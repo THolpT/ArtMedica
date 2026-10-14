@@ -1,0 +1,27 @@
+@model IEnumerable<ArtMedica.WebApi.Abstractions.IEntityDefinition>
+<link rel="stylesheet" href="~/admin.css" asp-append-version="true" />
+
+<aside class="admin-sidebar">
+    <a class="admin-sidebar-brand" asp-page="/Index">
+        ArtMedica
+    </a>
+
+    <div class="admin-sidebar-caption">
+        Управление данными
+    </div>
+
+    <nav class="admin-sidebar-nav">
+        @foreach (var entity in Model)
+        {
+            <a class="admin-sidebar-link"
+               asp-page="/Admin/Entity"
+               asp-route-entity="@entity.Route">
+                @entity.Label
+            </a>
+        }
+    </nav>
+
+    <div class="admin-sidebar-footer">
+        Панель администратора
+    </div>
+</aside>

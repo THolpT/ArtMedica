@@ -15,7 +15,10 @@
           "Microsoft.AspNetCore.OpenApi": "10.0.12",
           "Microsoft.EntityFrameworkCore.Design": "10.0.12",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "10.0.2",
-          "Saritasa.NetForge": "1.2.0"
+          "Saritasa.NetForge": "1.2.0",
+          "Swashbuckle.AspNetCore.Swagger": "10.3.0",
+          "Swashbuckle.AspNetCore.SwaggerGen": "10.3.0",
+          "Swashbuckle.AspNetCore.SwaggerUI": "10.3.0"
         },
         "runtime": {
           "ArtMedica.WebApi.dll": {}
@@ -1622,6 +1625,36 @@
           }
         }
       },
+      "Swashbuckle.AspNetCore.Swagger/10.3.0": {
+        "dependencies": {
+          "Microsoft.OpenApi": "2.12.0"
+        },
+        "runtime": {
+          "lib/net10.0/Swashbuckle.AspNetCore.Swagger.dll": {
+            "assemblyVersion": "10.3.0.0",
+            "fileVersion": "10.3.0.3126"
+          }
+        }
+      },
+      "Swashbuckle.AspNetCore.SwaggerGen/10.3.0": {
+        "dependencies": {
+          "Swashbuckle.AspNetCore.Swagger": "10.3.0"
+        },
+        "runtime": {
+          "lib/net10.0/Swashbuckle.AspNetCore.SwaggerGen.dll": {
+            "assemblyVersion": "10.3.0.0",
+            "fileVersion": "10.3.0.3126"
+          }
+        }
+      },
+      "Swashbuckle.AspNetCore.SwaggerUI/10.3.0": {
+        "runtime": {
+          "lib/net10.0/Swashbuckle.AspNetCore.SwaggerUI.dll": {
+            "assemblyVersion": "10.3.0.0",
+            "fileVersion": "10.3.0.3126"
+          }
+        }
+      },
       "System.CodeDom/6.0.0": {
         "runtime": {
           "lib/net6.0/System.CodeDom.dll": {
@@ -2474,6 +2507,27 @@
       "sha512": "sha512-uFoVVpFozz0R1u9nXz9yPy2v8un2cgfX9NTMPN7DIiVLaA6+D5cITSU31oTsHn9+5rcISiXMp3C0r8KO23VTYw==",
       "path": "saritasa.tools.common/5.0.0",
       "hashPath": "saritasa.tools.common.5.0.0.nupkg.sha512"
+    },
+    "Swashbuckle.AspNetCore.Swagger/10.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/W3Vdf8TeHAk6Pw6H/rduW6LQbzxKhUVnqtUFNHj/qUrLjlEZeVN8Q5WWgyGc3DLHRKlXm82kKCYfWRvx3/WCg==",
+      "path": "swashbuckle.aspnetcore.swagger/10.3.0",
+      "hashPath": "swashbuckle.aspnetcore.swagger.10.3.0.nupkg.sha512"
+    },
+    "Swashbuckle.AspNetCore.SwaggerGen/10.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-X0tSFT1OrlkhVQNqk1DNL+dQZmfvmXF2/syJ8whjORhVkPdZoyWC4445OG0VwnYoH9Q+oZaIblMBHX+Geb30Hw==",
+      "path": "swashbuckle.aspnetcore.swaggergen/10.3.0",
+      "hashPath": "swashbuckle.aspnetcore.swaggergen.10.3.0.nupkg.sha512"
+    },
+    "Swashbuckle.AspNetCore.SwaggerUI/10.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3qcin6S55lsFTsWf0vQO3P0bFc0tvk2EOkH+6wgJF9UQUk1WqsDUPEkexQE9Ievc+3zTPoYds9BTlvPMRbmkcQ==",
+      "path": "swashbuckle.aspnetcore.swaggerui/10.3.0",
+      "hashPath": "swashbuckle.aspnetcore.swaggerui.10.3.0.nupkg.sha512"
     },
     "System.CodeDom/6.0.0": {
       "type": "package",
