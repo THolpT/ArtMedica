@@ -1,0 +1,250 @@
+@import url('https://googleapis.com');
+
+
+.news-container {
+  max-width: 1740px; 
+  margin: 0 auto;
+  padding: 40px 40px 80px 40px; 
+  color: #1a1a1a;
+  font-family: 'Inter', -apple-system, sans-serif;
+  box-sizing: border-box;
+}
+
+.news-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 50px;
+  gap: 60px;
+}
+
+.news-title {
+  font-size: 42px;
+  font-weight: 400;
+  margin: 0;
+  letter-spacing: -0.5px;
+  color: #91B5D5; 
+  white-space: nowrap;
+}
+
+.news-intro-text {
+  max-width: 800px;
+  font-size: 24px; 
+  line-height: 1.45;
+  color: #1a1a1a;
+  margin: 0;
+  font-weight: 400;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+
+.news-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 0px;
+  overflow: hidden;
+}
+
+.card-badge-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0px 14px 0px;
+}
+
+.card-image img {
+  width: 100%;
+  height: 250px; 
+  object-fit: cover;
+  display: block;
+  border-radius: 8px; 
+}
+
+.card-body {
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.card-badge {
+  font-size: 14px;
+  color: #7a7a7a;
+  display: block;
+}
+
+.card-arrow-icon {
+  font-size: 20px;
+  color: #1a1a1a;
+  font-weight: 300;
+}
+
+.card-heading {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+  margin: 0 0 16px 0;
+  color: #1a1a1a;
+}
+
+.card-date {
+  font-size: 15px;
+  color: #91B5D5; 
+  margin-top: auto;
+}
+
+
+.news-card.card-featured {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: row; 
+  gap: 82px; 
+  background: #ffffff;
+  align-items: stretch;
+  height: 410px; 
+}
+
+.card-featured .card-image {
+  width: 300px;
+  height: 100%;
+}
+
+.card-featured .card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
+
+.card-featured-body {
+  width: 50%;
+  padding: 10px 0 10px 0; 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.card-featured-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 100px; 
+}
+
+.card-featured .card-heading {
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.35;
+  margin-bottom: -100px; 
+}
+
+.card-featured .card-date {
+  font-size: 15px;
+  color: #91B5D5;
+  margin-top: auto; 
+}
+
+
+.pagination {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  width: 100%; 
+  margin-top: 80px;
+  box-sizing: border-box;
+}
+
+.page-numbers-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px; 
+}
+
+.page-num, .page-arrow {
+  background: none;
+  border: 1px solid #e0e0e0;
+  color: #1a1a1a;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 400;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.page-arrow {
+  background: #231F20; 
+  color: #ffffff;
+  border-color: #231F20;
+  font-size: 18px;
+  border-radius: 6px;
+}
+
+.page-num.active {
+  background: #ffffff;
+  color: #1a1a1a;
+  border: 1px solid #1a1a1a; 
+  font-weight: 500;
+}
+
+.page-num:hover:not(.active) {
+  background: #f9f9f9;
+  border-color: #b3b3b3;
+}
+
+.page-arrow:hover {
+  background: #3d3d3d; 
+  border-color: #3d3d3d;
+}
+
+.page-dots {
+  color: #8c8c8c;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+}
+
+
+@media (max-width: 1200px) {
+  .news-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .news-container {
+    padding: 20px;
+  }
+  .news-header {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+  .news-card.card-featured {
+    grid-column: span 1;
+    flex-direction: column;
+    height: auto;
+  }
+  .card-featured .card-image, .card-featured-body {
+    width: 100%;
+  }
+}

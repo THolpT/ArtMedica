@@ -1,4 +1,5 @@
 using ArtMedica.Application;
+using ArtMedica.Application.Seeding;
 using ArtMedica.Domain.Models;
 using ArtMedica.WebApi.Abstractions;
 using ArtMedica.WebApi.Configuration;
@@ -6,6 +7,7 @@ using ArtMedica.WebApi.Services;
 using DotNetEd.CoreAdmin;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using RazorRichText.Extensions;
 using Saritasa.NetForge.Extensions;
 using Saritasa.NetForge.Infrastructure.EfCore.Extensions;
 
@@ -31,6 +33,13 @@ builder.Services.AddScoped<MediaStorageService>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+builder.Services.AddRazorRichText(opts =>
+{
+    opts.DefaultHeight = 100;
+    opts.DefaultPlaceholder = "Введите текст...";
+    // при необходимости: opts.SanitizeByDefault = true; (включено по умолчанию)
+});
 
 builder.Services.AddArtMedicaAdmin();
 
@@ -68,10 +77,17 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapDefaultControllerRoute();
 app.MapRazorPages();
+app.MapRazorRichTextAssets();
 
-// using (var scope = app.Services.CreateScope())
-// {
-//     await SeedData.InitializeAsync(scope.ServiceProvider);
-// }
+if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+    await db.Database.MigrateAsync();
+    await DbSeeder.SeedAsync(db);
+    logger.LogInformation("Database migrated and seeded");
+}
 
 app.Run();

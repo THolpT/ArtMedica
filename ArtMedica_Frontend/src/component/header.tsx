@@ -1,30 +1,28 @@
 import "../style/HF_style.css"
 import Logo from "../image/logo.svg"
-import Phone from "../image/phone.svg"
+import { Link, NavLink } from "react-router-dom"
 
 export function Header() {
-
   return (
-    <>
     <header>
-      <img src={Logo} alt="" />
+      <Link to="/">
+        <img className="logo" src={Logo} alt="Арт-Медика" />
+      </Link>
       <ul className="menu">
-        <li><a href="">О клинике</a></li>
-        <li><a href="">Услуги</a></li>
-        <li><a href="">Специалисты</a></li>
-        <li><a href="">Акции</a></li>
-        <li><a href="">Документы</a></li>
-        <li><a href="">Контакты</a></li>
+        <li><NavLink to="/about">О клинике</NavLink></li>
+        <li><NavLink to="/services">Услуги</NavLink></li>
+        <li><NavLink to="/specialists">Специалисты</NavLink></li>
+        <li><NavLink to="/stocks">Акции</NavLink></li>
+        <li><NavLink to="/documents">Документы</NavLink></li>
+        <li><NavLink to="/contacts">Контакты</NavLink></li>
       </ul>
       <div className="right_header">
         <div className="address">
-            <p>Челябинск, пр.Ленина 12а</p><br />
-            <p>ПН-СБ с 9:00 до 20:00</p>
+          <b>Челябинск, пр.Ленина 12а</b><br />
+          <p>ПН-СБ с 9:00 до 20:00</p>
         </div>
-        <button className="but_phone"><img src={Phone} alt="" /></button>
-        <button className="button">Записаться</button>
+        <Link to="/contacts" className="button">Записаться</Link>
       </div>
     </header>
-    </>
   )
 }

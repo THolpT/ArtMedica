@@ -1,0 +1,136 @@
+.services-page {
+  padding: 40px 0 80px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #1a1a1a;
+  background-color: #fff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 50px;
+  gap: 40px;
+}
+
+.title-wrapper {
+  flex-shrink: 0;
+}
+
+.page-title {
+  font-size: 36px;
+  font-weight: 400;
+  color: #8FA3D3;
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+
+.header-description {
+  max-width: 620px;
+  text-align: right;
+  font-size: 18px;
+  line-height: 1.4;
+  color: #1a1a1a;
+  margin-left: auto;
+}
+
+.header-description p {
+  margin: 0;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 40px 30px; 
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.service-image-wrapper {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+.service-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.service-card:hover .service-image {
+  transform: scale(1.03);
+}
+
+.service-title {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0 0 10px 0;
+  color: #1a1a1a;
+  line-height: 1.3;
+}
+
+.service-description {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #4a4a4a;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .page-header {
+    flex-direction: column;
+    margin-bottom: 40px;
+    gap: 20px;
+  }
+
+  .header-description {
+    text-align: left;
+    max-width: 100%;
+    margin-left: 0;
+    font-size: 16px;
+  }
+
+  .page-title { font-size: 30px; }
+
+  .services-grid {
+    gap: 30px 20px;
+  }
+
+  .service-title { font-size: 18px; }
+}
+
+@media (max-width: 600px) {
+  .services-page { padding: 20px 0 50px; }
+  .page-title { font-size: 26px; }
+  .header-description { font-size: 15px; }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .service-image-wrapper {
+    aspect-ratio: 16 / 10;
+  }
+
+  .service-title { font-size: 17px; }
+  .service-description { font-size: 13px; }
+}

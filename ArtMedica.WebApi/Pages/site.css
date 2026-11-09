@@ -1,0 +1,6 @@
+
+.wysiwyg-container .ql-editor {
+    min-height: var(--editor-height, 200px);
+    max-height: var(--editor-height, 200px);
+    overflow-y: auto;
+}

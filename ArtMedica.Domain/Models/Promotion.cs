@@ -13,6 +13,11 @@ public class Promotion
     [Required, MaxLength(200)]
     public string Title { get; set; }
 
+    public Guid ImgUrlId { get; set; }
+
+    [ForeignKey(nameof(ImgUrlId))]
+    public MediaFile ImgUrl { get; set; }
+
     [MaxLength(2000)]
     public string Description { get; set; }
 

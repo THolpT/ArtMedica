@@ -1,12 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "0YXybsOd8Wg=",
+  "dgSpecHash": "NpjvLIPWzN0=",
   "success": true,
   "projectFilePath": "/mnt/second_disk/projects/ArtMedica.WebApi/ArtMedica.WebApi.csproj",
   "expectedPackageFiles": [
+    "/home/holp/.nuget/packages/anglesharp/0.17.1/anglesharp.0.17.1.nupkg.sha512",
+    "/home/holp/.nuget/packages/anglesharp.css/0.17.0/anglesharp.css.0.17.0.nupkg.sha512",
     "/home/holp/.nuget/packages/communitytoolkit.mvvm/8.4.2/communitytoolkit.mvvm.8.4.2.nupkg.sha512",
     "/home/holp/.nuget/packages/coreadmin/4.0.0/coreadmin.4.0.0.nupkg.sha512",
     "/home/holp/.nuget/packages/deepcopy.expression/1.5.0/deepcopy.expression.1.5.0.nupkg.sha512",
+    "/home/holp/.nuget/packages/htmlagilitypack/1.12.4/htmlagilitypack.1.12.4.nupkg.sha512",
+    "/home/holp/.nuget/packages/htmlsanitizer/9.0.892/htmlsanitizer.9.0.892.nupkg.sha512",
     "/home/holp/.nuget/packages/humanizer/2.14.1/humanizer.2.14.1.nupkg.sha512",
     "/home/holp/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/holp/.nuget/packages/humanizer.core.af/2.14.1/humanizer.core.af.2.14.1.nupkg.sha512",
@@ -58,7 +62,8 @@
     "/home/holp/.nuget/packages/humanizer.core.zh-hans/2.14.1/humanizer.core.zh-hans.2.14.1.nupkg.sha512",
     "/home/holp/.nuget/packages/humanizer.core.zh-hant/2.14.1/humanizer.core.zh-hant.2.14.1.nupkg.sha512",
     "/home/holp/.nuget/packages/lindhart.analyser.missingawaitwarning/2.0.0/lindhart.analyser.missingawaitwarning.2.0.0.nupkg.sha512",
-    "/home/holp/.nuget/packages/microsoft.aspnetcore.app.internal.assets/10.0.12/microsoft.aspnetcore.app.internal.assets.10.0.12.nupkg.sha512",
+    "/home/holp/.nuget/packages/markdig/1.2.0/markdig.1.2.0.nupkg.sha512",
+    "/home/holp/.nuget/packages/microsoft.aspnetcore.app.internal.assets/10.0.13/microsoft.aspnetcore.app.internal.assets.10.0.13.nupkg.sha512",
     "/home/holp/.nuget/packages/microsoft.aspnetcore.identity.entityframeworkcore/10.0.12/microsoft.aspnetcore.identity.entityframeworkcore.10.0.12.nupkg.sha512",
     "/home/holp/.nuget/packages/microsoft.aspnetcore.identity.ui/10.0.12/microsoft.aspnetcore.identity.ui.10.0.12.nupkg.sha512",
     "/home/holp/.nuget/packages/microsoft.aspnetcore.openapi/10.0.12/microsoft.aspnetcore.openapi.10.0.12.nupkg.sha512",
@@ -111,8 +116,10 @@
     "/home/holp/.nuget/packages/nuget.protocol/6.12.1/nuget.protocol.6.12.1.nupkg.sha512",
     "/home/holp/.nuget/packages/nuget.versioning/6.12.1/nuget.versioning.6.12.1.nupkg.sha512",
     "/home/holp/.nuget/packages/pluralizeservice.core/1.2.21147.2/pluralizeservice.core.1.2.21147.2.nupkg.sha512",
+    "/home/holp/.nuget/packages/razorrichtext/10.0.1/razorrichtext.10.0.1.nupkg.sha512",
     "/home/holp/.nuget/packages/saritasa.netforge/1.2.0/saritasa.netforge.1.2.0.nupkg.sha512",
     "/home/holp/.nuget/packages/saritasa.tools.common/5.0.0/saritasa.tools.common.5.0.0.nupkg.sha512",
+    "/home/holp/.nuget/packages/sixlabors.imagesharp/4.1.3/sixlabors.imagesharp.4.1.3.nupkg.sha512",
     "/home/holp/.nuget/packages/swashbuckle.aspnetcore.swagger/10.3.0/swashbuckle.aspnetcore.swagger.10.3.0.nupkg.sha512",
     "/home/holp/.nuget/packages/swashbuckle.aspnetcore.swaggergen/10.3.0/swashbuckle.aspnetcore.swaggergen.10.3.0.nupkg.sha512",
     "/home/holp/.nuget/packages/swashbuckle.aspnetcore.swaggerui/10.3.0/swashbuckle.aspnetcore.swaggerui.10.3.0.nupkg.sha512",
@@ -125,11 +132,24 @@
     "/home/holp/.nuget/packages/system.composition.typedparts/9.0.0/system.composition.typedparts.9.0.0.nupkg.sha512",
     "/home/holp/.nuget/packages/system.configuration.configurationmanager/9.0.0/system.configuration.configurationmanager.9.0.0.nupkg.sha512",
     "/home/holp/.nuget/packages/system.data.datasetextensions/4.5.0/system.data.datasetextensions.4.5.0.nupkg.sha512",
+    "/home/holp/.nuget/packages/system.io.hashing/8.0.0/system.io.hashing.8.0.0.nupkg.sha512",
     "/home/holp/.nuget/packages/system.reflection.metadataloadcontext/8.0.0/system.reflection.metadataloadcontext.8.0.0.nupkg.sha512",
     "/home/holp/.nuget/packages/system.security.cryptography.pkcs/6.0.4/system.security.cryptography.pkcs.6.0.4.nupkg.sha512",
     "/home/holp/.nuget/packages/system.security.cryptography.protecteddata/9.0.6/system.security.cryptography.protecteddata.9.0.6.nupkg.sha512"
   ],
   "logs": [
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "message": "Package 'AngleSharp' 0.17.1 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-pgww-w46g-26qg",
+      "projectPath": "/mnt/second_disk/projects/ArtMedica.WebApi/ArtMedica.WebApi.csproj",
+      "warningLevel": 1,
+      "filePath": "/mnt/second_disk/projects/ArtMedica.WebApi/ArtMedica.WebApi.csproj",
+      "libraryId": "AngleSharp",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
     {
       "code": "NU1901",
       "level": "Warning",

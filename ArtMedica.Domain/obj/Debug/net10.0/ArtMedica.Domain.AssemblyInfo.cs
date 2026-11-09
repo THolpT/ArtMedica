@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ArtMedica.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+917cf4988b0f0c3fd551d7e09b586cdc0e9916ed")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f3d669c50f7f899d1935b168e96a08aef295f0e5")]
 [assembly: System.Reflection.AssemblyProductAttribute("ArtMedica.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ArtMedica.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

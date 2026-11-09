@@ -1,0 +1,148 @@
+.specialists-container {
+  max-width: 1740px;
+  margin: 0 auto;
+  padding: 40px 40px 100px 40px;
+  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+  box-sizing: border-box;
+}
+
+.specialists-container .breadcrumbs {
+  font-size: 15px;
+  color: #7a7a7a;
+  margin-bottom: 30px;
+}
+
+.specialists-container .breadcrumbs span {
+  margin: 0 8px;
+}
+
+.specialists-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 50px;
+  gap: 60px;
+}
+
+.specialists-title {
+  font-size: 42px;
+  font-weight: 400;
+  margin: 0;
+  color: #91B5D5;
+  white-space: nowrap;
+}
+
+.specialists-intro-text {
+  max-width: 950px;
+  font-size: 32px;
+  line-height: 1.4;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.specialists-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 50px;
+}
+
+.spec-tab-btn {
+  background: #F4F7FC;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 18px;
+  cursor: pointer;
+  color: #1a1a1a;
+  transition: all 0.2s ease;
+}
+
+.spec-tab-btn.active, .spec-tab-btn:hover {
+  background: #37241B;
+  color: #fff;
+}
+
+.specialists-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px 30px; 
+}
+
+.doctor-card {
+  display: flex;
+  flex-direction: row;
+  background: #ffffff;
+  gap: 32px;
+  align-items: stretch;
+  height: 380px; 
+}
+
+.doctor-photo {
+  width: 42%; 
+  height: 100%;
+}
+
+.doctor-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+}
+
+
+.doctor-info-body {
+  width: 58%;
+  padding: 0px 10px 15px 0; 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.doctor-info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px; 
+  line-height: 1;
+}
+
+
+.doctor-badge {
+  font-size: 14px;
+  color: #8c8c8c;
+}
+
+.doctor-arrow {
+  font-size: 22px;
+  color: #1a1a1a;
+  font-weight: 300;
+}
+
+.doctor-name {
+  font-size: 32px; 
+  font-weight: 500;
+  line-height: 1.25;
+  margin: 0 0 24px 0;
+  color: #1a1a1a;
+}
+
+.doctor-description {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #4a4a4a;
+  margin: 0;
+}
+
+@media (max-width: 1100px) {
+  .specialists-grid {
+    grid-template-columns: 1fr;
+  }
+  .doctor-card {
+    height: auto;
+  }
+}

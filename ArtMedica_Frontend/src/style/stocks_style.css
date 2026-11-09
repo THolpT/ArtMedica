@@ -1,0 +1,154 @@
+body {
+    font-family: "Onest", sans-serif;
+}
+.Block_stocks {
+    padding: 20px 100px;
+}
+.Block_link {
+    margin-top: 60px;
+    font-size: 40px;
+}
+.Block_link p {
+    font-size: 40px;
+}
+.stocks {
+    background-color: #F4F7FF;
+    width: 810px;
+    border-radius: 20px;
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    position: relative;
+}
+.beet {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.stock_arrow {
+    font-size: 35px;
+    margin: 0;
+}
+.stock img {
+    border-radius: 10px;
+}
+.stock_title {
+    font-size: 36px;
+}
+
+.stock_desc {
+    font-size: 20px;
+}
+.stock_top {
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+}
+.stock_bottom {
+    display: flex;
+    font-size: 20px;
+    color: #91B5D5;
+}
+.stocks_boxs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.Block_pagination {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.count {
+  display: flex;
+  gap: 8px;
+}
+
+.page-btn {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 24px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #F4F7FF;
+}
+
+
+.page-btn.active {
+    border: 1px solid black;
+  color: #111827;
+  cursor: default;
+}
+
+.page-btn.dots {
+  background-color: transparent;
+  border-color: transparent;
+  cursor: default;
+  color: #9ca3af;
+  font-weight: 900;
+}
+
+
+.nav-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+}
+button:hover {
+    opacity: 0.5;
+}
+.prev, .next {
+    padding: 0 15px;
+}
+
+@media (max-width: 1440px) {
+    .stocks {
+        width: 100%;
+    }
+    .stock_desc {
+        font-size: 20px;
+    }
+}
+@media (max-width: 768px) {
+    .Block_stocks {
+        padding: 20px;
+    }
+    .Block_link {
+        font-size: 25px;
+    }
+    .Block_link p {
+        font-size: 25px;
+    }
+    .Block_pagination {
+        transform: scale(0.7);
+    }
+}
+
+@media (max-width: 426px) {
+    .stocks{
+        flex-direction: column;
+        width: 350px;
+    }
+    .stock_title {
+        font-size: 20px;
+    }
+    .stock_desc {
+        font-size: 16px;
+        margin-bottom: 30px;
+    }
+    .Block_pagination {
+        gap: 20px;
+        transform: none;
+    }
+    .Block_pagination button {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+}

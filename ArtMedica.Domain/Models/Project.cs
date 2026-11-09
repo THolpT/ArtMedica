@@ -42,7 +42,9 @@ public class Project
     [InverseProperty(nameof(ProjectFormat.Project))]
     public ICollection<ProjectFormat> Formats { get; set; } = new List<ProjectFormat>();
 
-    public ICollection<string> Stages { get; set; } = new List<string>();
+    public string[] Stages { get; set; } = [];
+
+    public DateTime Date {get;set;}
 
     public ICollection<MediaFile> Images { get; set; } = new List<MediaFile>();
 

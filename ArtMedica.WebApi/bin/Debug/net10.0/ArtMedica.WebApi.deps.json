@@ -15,13 +15,34 @@
           "Microsoft.AspNetCore.OpenApi": "10.0.12",
           "Microsoft.EntityFrameworkCore.Design": "10.0.12",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "10.0.2",
+          "RazorRichText": "10.0.1",
           "Saritasa.NetForge": "1.2.0",
+          "SixLabors.ImageSharp": "4.1.3",
           "Swashbuckle.AspNetCore.Swagger": "10.3.0",
           "Swashbuckle.AspNetCore.SwaggerGen": "10.3.0",
           "Swashbuckle.AspNetCore.SwaggerUI": "10.3.0"
         },
         "runtime": {
           "ArtMedica.WebApi.dll": {}
+        }
+      },
+      "AngleSharp/0.17.1": {
+        "runtime": {
+          "lib/netstandard2.0/AngleSharp.dll": {
+            "assemblyVersion": "0.17.1.0",
+            "fileVersion": "0.17.1.0"
+          }
+        }
+      },
+      "AngleSharp.Css/0.17.0": {
+        "dependencies": {
+          "AngleSharp": "0.17.1"
+        },
+        "runtime": {
+          "lib/net7.0/AngleSharp.Css.dll": {
+            "assemblyVersion": "0.17.0.0",
+            "fileVersion": "0.17.0.0"
+          }
         }
       },
       "CommunityToolkit.Mvvm/8.4.2": {
@@ -49,6 +70,26 @@
           "lib/net9.0/DeepCopy.Expression.dll": {
             "assemblyVersion": "1.5.0.0",
             "fileVersion": "1.5.0.0"
+          }
+        }
+      },
+      "HtmlAgilityPack/1.12.4": {
+        "runtime": {
+          "lib/net7.0/HtmlAgilityPack.dll": {
+            "assemblyVersion": "1.12.4.0",
+            "fileVersion": "1.12.4.0"
+          }
+        }
+      },
+      "HtmlSanitizer/9.0.892": {
+        "dependencies": {
+          "AngleSharp": "0.17.1",
+          "AngleSharp.Css": "0.17.0"
+        },
+        "runtime": {
+          "lib/net8.0/HtmlSanitizer.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.892.0"
           }
         }
       },
@@ -589,6 +630,14 @@
         "resources": {
           "lib/net6.0/zh-Hant/Humanizer.resources.dll": {
             "locale": "zh-Hant"
+          }
+        }
+      },
+      "Markdig/1.2.0": {
+        "runtime": {
+          "lib/net10.0/Markdig.dll": {
+            "assemblyVersion": "1.2.0.0",
+            "fileVersion": "1.2.0.0"
           }
         }
       },
@@ -1599,6 +1648,19 @@
           }
         }
       },
+      "RazorRichText/10.0.1": {
+        "dependencies": {
+          "HtmlAgilityPack": "1.12.4",
+          "HtmlSanitizer": "9.0.892",
+          "Markdig": "1.2.0"
+        },
+        "runtime": {
+          "lib/net10.0/RazorRichText.dll": {
+            "assemblyVersion": "1.3.0.0",
+            "fileVersion": "1.3.0.0"
+          }
+        }
+      },
       "Saritasa.NetForge/1.2.0": {
         "dependencies": {
           "CommunityToolkit.Mvvm": "8.4.2",
@@ -1622,6 +1684,17 @@
           "lib/net60/Saritasa.Tools.Common.dll": {
             "assemblyVersion": "5.0.0.0",
             "fileVersion": "5.0.0.710"
+          }
+        }
+      },
+      "SixLabors.ImageSharp/4.1.3": {
+        "dependencies": {
+          "System.IO.Hashing": "8.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/SixLabors.ImageSharp.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.1.3.0"
           }
         }
       },
@@ -1734,6 +1807,14 @@
           }
         }
       },
+      "System.IO.Hashing/8.0.0": {
+        "runtime": {
+          "lib/net8.0/System.IO.Hashing.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.53103"
+          }
+        }
+      },
       "System.Reflection.MetadataLoadContext/8.0.0": {
         "runtime": {
           "lib/net8.0/System.Reflection.MetadataLoadContext.dll": {
@@ -1780,6 +1861,20 @@
       "serviceable": false,
       "sha512": ""
     },
+    "AngleSharp/0.17.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5MPI4bbixlwxb0W/smOMeIR+QlxMy5/5jD+WnIAw4pBC+7AhLPe5bS3cLgQMJyvd6q0A48sG+uYOt/ep406GLA==",
+      "path": "anglesharp/0.17.1",
+      "hashPath": "anglesharp.0.17.1.nupkg.sha512"
+    },
+    "AngleSharp.Css/0.17.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-bg0AcugmX6BFEi/DHG61QrwRU8iuiX4H8LZehdIzYdqOM/dgb3BsCTzNIcc1XADn4+xfQEdVwJYTSwUxroL4vg==",
+      "path": "anglesharp.css/0.17.0",
+      "hashPath": "anglesharp.css.0.17.0.nupkg.sha512"
+    },
     "CommunityToolkit.Mvvm/8.4.2": {
       "type": "package",
       "serviceable": true,
@@ -1800,6 +1895,20 @@
       "sha512": "sha512-2Lr37GWtJX3g9ckjweJSGSd+LlI0qhGqLwQFNteRILQQpwyn53eyShqHzxN2LEuaj1chisdeWyK8ixSg4U6aWw==",
       "path": "deepcopy.expression/1.5.0",
       "hashPath": "deepcopy.expression.1.5.0.nupkg.sha512"
+    },
+    "HtmlAgilityPack/1.12.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ljqvBabvFwKoLniuoQKO8b5bJfJweKLs4fUNS/V5dsvpo0A8MlJqxxn9XVmP2DaskbUXty6IYaWAi1SArGIMeQ==",
+      "path": "htmlagilitypack/1.12.4",
+      "hashPath": "htmlagilitypack.1.12.4.nupkg.sha512"
+    },
+    "HtmlSanitizer/9.0.892": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zdkMmpNCjTkxna8Y+jmPIFm2st+HjHrf32yNElFYwe7L4GmDm+mdKR6TzDyf6ewJ0RUUz84D4IkHNgrwGi4VbQ==",
+      "path": "htmlsanitizer/9.0.892",
+      "hashPath": "htmlsanitizer.9.0.892.nupkg.sha512"
     },
     "Humanizer/2.14.1": {
       "type": "package",
@@ -2151,6 +2260,13 @@
       "path": "humanizer.core.zh-hant/2.14.1",
       "hashPath": "humanizer.core.zh-hant.2.14.1.nupkg.sha512"
     },
+    "Markdig/1.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LoBVOgeDWfHthWTPzQJkjDkxImqBXRA5XpuTyjdM4SAURyWQGG1CbEEbfPbmvAavggnAZPaTYpbhIPUurWvIXA==",
+      "path": "markdig/1.2.0",
+      "hashPath": "markdig.1.2.0.nupkg.sha512"
+    },
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore/10.0.12": {
       "type": "package",
       "serviceable": true,
@@ -2494,6 +2610,13 @@
       "path": "pluralizeservice.core/1.2.21147.2",
       "hashPath": "pluralizeservice.core.1.2.21147.2.nupkg.sha512"
     },
+    "RazorRichText/10.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lpoExsnBRh4+TZElSvGlsOJfkzbKXvv+2sXpdChOPx+9iJxX8T3Kv6Oat0tKqM9k+Pcp4kWH5CsyexrnJhsvsg==",
+      "path": "razorrichtext/10.0.1",
+      "hashPath": "razorrichtext.10.0.1.nupkg.sha512"
+    },
     "Saritasa.NetForge/1.2.0": {
       "type": "package",
       "serviceable": true,
@@ -2507,6 +2630,13 @@
       "sha512": "sha512-uFoVVpFozz0R1u9nXz9yPy2v8un2cgfX9NTMPN7DIiVLaA6+D5cITSU31oTsHn9+5rcISiXMp3C0r8KO23VTYw==",
       "path": "saritasa.tools.common/5.0.0",
       "hashPath": "saritasa.tools.common.5.0.0.nupkg.sha512"
+    },
+    "SixLabors.ImageSharp/4.1.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-VzzKPgdC0ZupEg937iKpg2cEGXudnFyQRwiHfIvtCKSlFUaxVbLjW3AztDhyk06z+4NzD7IAlMf7fqU57WXyBQ==",
+      "path": "sixlabors.imagesharp/4.1.3",
+      "hashPath": "sixlabors.imagesharp.4.1.3.nupkg.sha512"
     },
     "Swashbuckle.AspNetCore.Swagger/10.3.0": {
       "type": "package",
@@ -2584,6 +2714,13 @@
       "sha512": "sha512-PdkuMrwDhXoKFo/JxISIi9E8L+QGn9Iquj2OKDWHB6Y/HnUOuBouF7uS3R4Hw3FoNmwwMo6hWgazQdyHIIs27A==",
       "path": "system.configuration.configurationmanager/9.0.0",
       "hashPath": "system.configuration.configurationmanager.9.0.0.nupkg.sha512"
+    },
+    "System.IO.Hashing/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ne1843evDugl0md7Fjzy6QjJrzsjh46ZKbhf8GwBXb5f/gw97J4bxMs0NQKifDuThh/f0bZ0e62NPl1jzTuRqA==",
+      "path": "system.io.hashing/8.0.0",
+      "hashPath": "system.io.hashing.8.0.0.nupkg.sha512"
     },
     "System.Reflection.MetadataLoadContext/8.0.0": {
       "type": "package",

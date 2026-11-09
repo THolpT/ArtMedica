@@ -1,0 +1,584 @@
+/* =========================================
+   Общие стили страницы
+   ========================================= */
+
+.prices-page {
+  padding: 40px 0 80px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #1a1a1a;
+  background-color: #fff;
+}
+
+.prices-page *,
+.prices-page *::before,
+.prices-page *::after {
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Хлебные крошки и заголовок */
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 30px;
+  font-size: 14px;
+  color: #888;
+}
+
+.separator {
+  font-size: 12px;
+}
+
+.current {
+  color: #1a1a1a;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.page-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  color: #8fa3d3;
+  font-size: 36px;
+  font-weight: 400;
+}
+
+.header-description {
+  margin-left: auto;
+  text-align: right;
+  font-size: 20px;
+  color: #1a1a1a;
+}
+
+.header-description p {
+  margin: 0;
+}
+
+/* Базовые стили серых блоков */
+
+.price-section {
+  margin-bottom: 15px;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: #f4f6fa;
+  transition: background-color 0.2s ease;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding: 22px 30px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: background-color 0.2s ease;
+}
+
+.section-header:hover {
+  background-color: #e8eef7;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+  color: #1a1a1a;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.section-price {
+  color: #4a4a4a;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.section-arrow {
+  flex-shrink: 0;
+  color: #1a1a1a;
+  font-size: 22px;
+  line-height: 1;
+  transition: transform 0.25s ease;
+}
+
+.section-arrow.open {
+  transform: rotate(180deg);
+}
+
+.section-body {
+  padding: 0 30px 30px;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Таблицы */
+
+.price-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.price-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.price-table thead th {
+  padding: 14px 16px;
+  background-color: #eef1f7;
+  color: #4a4a4a;
+  font-weight: 500;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.price-table tbody td {
+  padding: 15px 16px;
+  border-bottom: 1px solid #e3e8f1;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.price-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.price-table tbody td:nth-child(1),
+.price-table tbody td:nth-child(2),
+.price-table tbody td:nth-child(4),
+.price-table tbody td:nth-child(5) {
+  color: #666;
+  white-space: nowrap;
+}
+
+.price-table tbody td:nth-child(3) {
+  min-width: 320px;
+}
+
+.price-table tbody td:nth-child(6) {
+  font-weight: 500;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.section-note {
+  margin: 15px 0 0;
+  color: #666;
+  font-size: 13px;
+  font-style: italic;
+}
+
+/* Заголовки групп */
+
+.group {
+  margin-bottom: 30px;
+}
+
+.group-label {
+  position: relative;
+  margin: 40px 0 25px;
+  color: #1a1a1a;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: right;
+}
+
+.group:first-child .group-label {
+  margin-top: 0;
+}
+
+/* =========================================
+   Первый блок — белый стиль
+   ========================================= */
+
+.price-section--white {
+  margin-bottom: 15px;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: #f4f6fa;
+  transition: background-color 0.2s ease;
+  
+}
+
+.price-section--white .section-header,
+.price-section--white .section-header:hover {
+  padding: 22px 0;
+  border-bottom: 1px solid #e0e0e0;
+  border-radius: 0;
+  background: #fff;
+}
+
+.price-section--white .section-title {
+  gap: 8px;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.price-section--white .section-price {
+  color: #8a8a8a;
+  font-size: 18px;
+}
+
+.price-section--white .section-body {
+  padding: 0 0 30px;
+}
+
+.price-section--white .price-table-wrapper {
+  overflow-x: auto;
+  border-radius: 0;
+  background-color: #fff;
+}
+
+.price-section--white .price-table {
+  width: 100%;
+  min-width: 1000px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 13px;
+}
+
+.price-section--white .price-table thead th {
+  padding: 12px 10px;
+  border-bottom: 1px solid #dedede;
+  background-color: #fff;
+  color: #1a1a1a;
+  font-size: 13px;
+  font-weight: 400;
+  text-align: left;
+  white-space: normal;
+  vertical-align: bottom;
+}
+
+.price-section--white .price-table tbody td {
+  padding: 14px 10px;
+  border-bottom: none;
+  color: #1a1a1a;
+  font-weight: 400;
+  vertical-align: top;
+  line-height: 1.4;
+  white-space: normal;
+}
+
+.price-section--white .price-table tbody td:nth-child(1),
+.price-section--white .price-table tbody td:nth-child(2),
+.price-section--white .price-table tbody td:nth-child(4),
+.price-section--white .price-table tbody td:nth-child(5) {
+  color: #333;
+  white-space: nowrap;
+}
+
+.price-section--white .price-table tbody td:nth-child(3) {
+  min-width: 0;
+}
+
+.price-section--white .price-table tbody td:nth-child(6) {
+  font-weight: 400;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.price-section--white .price-table tbody tr:hover {
+  background-color: #fafbfc;
+}
+
+/* Ширина столбцов первого блока */
+
+.price-section--white .col-code {
+  width: 105px;
+}
+
+.price-section--white .col-mis {
+  width: 90px;
+}
+
+.price-section--white .col-name {
+  width: auto;
+}
+
+.price-section--white .col-unit {
+  width: 65px;
+}
+
+.price-section--white .col-time {
+  width: 65px;
+}
+
+.price-section--white .col-price {
+  width: 100px;
+}
+
+.price-section--white .col-complex-price {
+  width: 255px;
+}
+
+/* Заголовок трёх категорий сложности */
+
+.price-section--white .th-price-complex {
+  min-width: 255px;
+  text-align: center !important;
+}
+
+.price-section--white .price-categories {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(65px, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.price-section--white .td-price-complex {
+  min-width: 255px;
+  padding-top: 14px !important;
+}
+
+.price-section--white .price-cells {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(65px, 1fr));
+  gap: 8px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.price-section--white .complex-table {
+  margin-top: 12px;
+}
+
+.price-section--white .row-subheader td {
+  padding-top: 24px !important;
+  padding-bottom: 8px !important;
+  border-bottom: none;
+  font-weight: 500 !important;
+  text-transform: uppercase;
+}
+
+.price-section--white .section-note {
+  margin: 16px 0 10px;
+  color: #333;
+  font-size: 13px;
+  font-style: normal;
+  line-height: 1.5;
+}
+
+/* Адаптив */
+
+@media (max-width: 900px) {
+  .page-header {
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+
+  .header-description {
+    margin-left: 0;
+    text-align: left;
+    font-size: 18px;
+  }
+
+  .page-title {
+    font-size: 30px;
+  }
+
+  .section-header {
+    padding: 18px 20px;
+  }
+
+  .section-title {
+    font-size: 17px;
+  }
+
+  .section-price {
+    font-size: 16px;
+  }
+
+  .section-body {
+    padding: 0 20px 20px;
+  }
+
+  .price-section--white .section-header {
+    padding: 18px 0;
+  }
+
+  .price-section--white .section-body {
+    padding: 0 0 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .prices-page {
+    padding: 20px 0 40px;
+  }
+
+  .page-title {
+    font-size: 24px;
+  }
+
+  .header-description {
+    font-size: 16px;
+  }
+
+  .section-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    font-size: 15px;
+  }
+
+  .section-price {
+    font-size: 14px;
+  }
+
+  .section-arrow {
+    font-size: 18px;
+  }
+
+  /* Серые таблицы на мобильных превращаются в карточки */
+
+  .price-section:not(.price-section--white) .price-table thead {
+    display: none;
+  }
+
+  .price-section:not(.price-section--white) .price-table,
+  .price-section:not(.price-section--white) .price-table tbody,
+  .price-section:not(.price-section--white) .price-table tr,
+  .price-section:not(.price-section--white) .price-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .price-section:not(.price-section--white) .price-table tr {
+    margin-bottom: 12px;
+    padding: 15px;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  .price-section:not(.price-section--white) .price-table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: none;
+    font-size: 13px;
+  }
+
+  .price-section:not(.price-section--white) .price-table td::before {
+    flex-shrink: 0;
+    margin-right: 15px;
+    color: #888;
+    font-weight: 500;
+    content: attr(data-label);
+  }
+
+  .price-section:not(.price-section--white) .price-table td:nth-child(3) {
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .price-section:not(.price-section--white) .price-table td:nth-child(3)::before {
+    margin-bottom: 4px;
+  }
+
+  .price-section:not(.price-section--white) .price-table td:nth-child(6) {
+    display: block;
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px solid #e3e8f1;
+    text-align: left;
+    font-size: 15px;
+  }
+
+  /* Белый блок: сохраняем структуру таблиц и три колонки цен */
+
+  .price-section--white .section-title {
+    font-size: 16px;
+  }
+
+  .price-section--white .section-price {
+    font-size: 14px;
+  }
+
+  .price-section--white .price-table {
+    min-width: 1000px;
+    table-layout: fixed;
+  }
+
+  .price-section--white .price-table thead {
+    display: table-header-group;
+  }
+
+  .price-section--white .price-table tbody {
+    display: table-row-group;
+  }
+
+  .price-section--white .price-table tr {
+    display: table-row;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  .price-section--white .price-table th,
+  .price-section--white .price-table td {
+    display: table-cell;
+    width: auto;
+    padding: 12px 8px;
+    font-size: 12px;
+  }
+
+  .price-section--white .price-table td::before {
+    content: none;
+  }
+
+  .price-section--white .price-categories,
+  .price-section--white .price-cells {
+    grid-template-columns: repeat(3, minmax(65px, 1fr));
+    gap: 8px;
+  }
+
+  .price-section--white .section-note {
+    font-size: 12px;
+  }
+
+  .section-note {
+    font-size: 12px;
+  }
+}

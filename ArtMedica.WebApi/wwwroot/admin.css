@@ -729,3 +729,44 @@ body {
     padding: 0;
     margin: 0;
 }
+/* --- WYSIWYG (Quill) --- */
+
+/* 1. Родительский контейнер (высота задается инлайново из C#) */
+.wysiwyg-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc; /* Опционально: рамка вокруг всего редактора */
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+/* 2. Контейнер Quill (занимает всё место под тулбаром) */
+.wysiwyg-container .ql-container {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: none; /* Убираем двойную рамку от самого Quill */
+}
+
+/* 3. Область ввода текста (включает скролл) */
+.wysiwyg-container .ql-editor {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0; /* Обязательно для работы flexbox скролла */
+}
+
+/* 4. Убираем лишние отступы у тулбара, если нужно */
+.wysiwyg-container .ql-toolbar {
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+
+.string-collection-item .btn-outline-danger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    padding: 0;
+    font-weight: bold;
+}

@@ -61,7 +61,7 @@ namespace ArtMedica.Application.Migrations
 
                     b.HasIndex("SpecialistId");
 
-                    b.ToTable("Accreditations");
+                    b.ToTable("Accreditations", (string)null);
                 });
 
             modelBuilder.Entity("ArtMedica.Domain.Models.Case", b =>
@@ -93,7 +93,70 @@ namespace ArtMedica.Application.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cases");
+                    b.ToTable("Cases", (string)null);
+                });
+
+            modelBuilder.Entity("ArtMedica.Domain.Models.Document", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<Guid>("TypeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("Documents", (string)null);
+                });
+
+            modelBuilder.Entity("ArtMedica.Domain.Models.DocumentType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DocumentTypes", (string)null);
+                });
+
+            modelBuilder.Entity("ArtMedica.Domain.Models.Faq", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Faqs", (string)null);
                 });
 
             modelBuilder.Entity("ArtMedica.Domain.Models.MediaFile", b =>
@@ -107,11 +170,6 @@ namespace ArtMedica.Application.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
                     b.Property<string>("Url")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -119,7 +177,7 @@ namespace ArtMedica.Application.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Files");
+                    b.ToTable("Files", (string)null);
                 });
 
             modelBuilder.Entity("ArtMedica.Domain.Models.New", b =>
@@ -145,7 +203,7 @@ namespace ArtMedica.Application.Migrations
 
                     b.HasIndex("ImgUrlId");
 
-                    b.ToTable("News");
+                    b.ToTable("News", (string)null);
                 });
 
             modelBuilder.Entity("ArtMedica.Domain.Models.OperationResult", b =>
@@ -179,6 +237,9 @@ namespace ArtMedica.Application.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("ExpertCount")
                         .HasColumnType("integer");
@@ -250,7 +311,7 @@ namespace ArtMedica.Application.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("ProjectFormats");
+                    b.ToTable("ProjectFormats", (string)null);
                 });
 
             modelBuilder.Entity("ArtMedica.Domain.Models.ProjectPartner", b =>
@@ -276,7 +337,7 @@ namespace ArtMedica.Application.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("ProjectPartners");
+                    b.ToTable("ProjectPartners", (string)null);
                 });
 
             modelBuilder.Entity("ArtMedica.Domain.Models.ProjectSlideInfo", b =>
@@ -323,6 +384,9 @@ namespace ArtMedica.Application.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("character varying(2000)");
 
+                    b.Property<Guid>("ImgUrlId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -330,7 +394,9 @@ namespace ArtMedica.Application.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Promotions");
+                    b.HasIndex("ImgUrlId");
+
+                    b.ToTable("Promotions", (string)null);
                 });
 
             modelBuilder.Entity("ArtMedica.Domain.Models.Qualification", b =>
@@ -364,7 +430,7 @@ namespace ArtMedica.Application.Migrations
 
                     b.HasIndex("SpecialistId");
 
-                    b.ToTable("Qualifications");
+                    b.ToTable("Qualifications", (string)null);
                 });
 
             modelBuilder.Entity("ArtMedica.Domain.Models.Service", b =>
@@ -430,12 +496,17 @@ namespace ArtMedica.Application.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("ImgUrlId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ImgUrlId");
 
                     b.ToTable("ServiceCategories", (string)null);
                 });
@@ -728,12 +799,23 @@ namespace ArtMedica.Application.Migrations
                     b.Navigation("Specialist");
                 });
 
+            modelBuilder.Entity("ArtMedica.Domain.Models.Document", b =>
+                {
+                    b.HasOne("ArtMedica.Domain.Models.DocumentType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Type");
+                });
+
             modelBuilder.Entity("ArtMedica.Domain.Models.New", b =>
                 {
                     b.HasOne("ArtMedica.Domain.Models.MediaFile", "ImgUrl")
                         .WithMany()
                         .HasForeignKey("ImgUrlId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ImgUrl");
@@ -756,7 +838,7 @@ namespace ArtMedica.Application.Migrations
                     b.HasOne("ArtMedica.Domain.Models.Specialist", "Specialist")
                         .WithMany("operationResults")
                         .HasForeignKey("SpecialistId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ImgUrl");
@@ -782,7 +864,7 @@ namespace ArtMedica.Application.Migrations
                     b.HasOne("ArtMedica.Domain.Models.MediaFile", "Img")
                         .WithMany()
                         .HasForeignKey("ImgId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ArtMedica.Domain.Models.Project", "Project")
@@ -826,6 +908,17 @@ namespace ArtMedica.Application.Migrations
                     b.Navigation("Project");
                 });
 
+            modelBuilder.Entity("ArtMedica.Domain.Models.Promotion", b =>
+                {
+                    b.HasOne("ArtMedica.Domain.Models.MediaFile", "ImgUrl")
+                        .WithMany()
+                        .HasForeignKey("ImgUrlId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ImgUrl");
+                });
+
             modelBuilder.Entity("ArtMedica.Domain.Models.Qualification", b =>
                 {
                     b.HasOne("ArtMedica.Domain.Models.Specialist", "Specialist")
@@ -846,6 +939,17 @@ namespace ArtMedica.Application.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("ArtMedica.Domain.Models.ServiceCategory", b =>
+                {
+                    b.HasOne("ArtMedica.Domain.Models.MediaFile", "ImgUrl")
+                        .WithMany()
+                        .HasForeignKey("ImgUrlId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ImgUrl");
                 });
 
             modelBuilder.Entity("ArtMedica.Domain.Models.Specialist", b =>

@@ -1,10 +1,8 @@
-
 using ArtMedica.Domain.Models;
 using ArtMedica.WebApi.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
 // Добавь using с фактическим пространством имён ApplicationDbContext.
-using ArtMedica.Application.Migrations;
 using ArtMedica.WebApi.Services;
 using ArtMedica.Application;
 
@@ -17,7 +15,9 @@ public static class AdminRegistration
     {
         services.AddAdmin<ApplicationDbContext>(admin =>
         {
+            // =============================================================
             // Медиафайлы
+            // =============================================================
             admin.Entity<MediaFile>(entity =>
             {
                 entity.Name = "media-files";
@@ -35,45 +35,128 @@ public static class AdminRegistration
                     .Required()
                     .Placeholder("Введите название файла");
 
-                entity.Field("type", x => x.Type)
-                    .Label("Тип")
-                    .Field(new TextField())
-                    .Required()
-                    .Placeholder("Например: image/jpeg");
-
                 entity.Field("url", x => x.Url)
                     .Label("Файл")
                     .Field(new FileField())
                     .Required();
 
+                // УБРАНО поле "type" — MediaFile.Type больше нет в модели.
+
                 entity.Create(async context =>
+                {
+                    var file = context.HttpContext.Request.Form.Files.GetFile("Url");
+
+                    if (file is null || file.Length == 0)
+                        throw new InvalidOperationException("Выберите файл для загрузки.");
+
+                    var storage = context.GetService<MediaStorageService>();
+                    var uploaded = await storage.SaveAsync(file, context.CancellationToken);
+
+                    var entity = context.Entity;
+                    entity.Name = Path.GetFileNameWithoutExtension(file.FileName);
+                    entity.Url = uploaded.Url;
+                    // УБРАНО: entity.Type = uploaded.Type;
+
+                    return entity;
+                });
+            });
+
+            // =============================================================
+            // Документы
+            // =============================================================
+            admin.Entity<DocumentType>(entity =>
+            {
+                entity.Name = "document-types";
+                entity.Label = "Типы документов";
+                entity.Route = "document-types";
+
+                entity.Field("id", x => x.Id)
+                    .Label("ID").Field(new TextField()).ReadOnly();
+
+                entity.Field("name", x => x.Name)
+                    .Label("Название").Field(new TextField()).Required();
+
+                entity.Create(async context => context.Entity);
+            });
+
+            admin.Entity<Document>(entity =>
+{
+    entity.Name = "documents";
+    entity.Label = "Документы";
+    entity.Route = "documents";
+
+    entity.Field("id", x => x.Id)
+        .Label("ID").Field(new TextField()).ReadOnly();
+
+    entity.Field("name", x => x.Name)
+        .Label("Название").Field(new TextField()).Required();
+
+    entity.Field("typeId", x => x.TypeId)
+        .Label("Тип документа")
+        .Field(new ReferenceField<DocumentType>("document-types"))
+        .Required();
+
+    entity.Field("url", x => x.Url)
+        .Label("Файл")
+        .Field(new FileField())
+        .Required();
+
+    entity.Create(async context =>
     {
-        var file = context.HttpContext.Request.Form.Files
-            .GetFile("Url");
-
-        if (file is null || file.Length == 0)
-        {
-            throw new InvalidOperationException(
-                "Выберите файл для загрузки.");
-        }
-
-        var storage = context.GetService<MediaStorageService>();
-
-        var uploaded = await storage.SaveAsync(
-            file,
-            context.CancellationToken);
-
+        var form = context.HttpContext.Request.Form;
+        var file = form.Files.GetFile("url");
         var entity = context.Entity;
 
-        entity.Name = Path.GetFileNameWithoutExtension(file.FileName);
-        entity.Type = uploaded.Type;
-        entity.Url = uploaded.Url;
+        // ReferenceField обычно сам проставляет TypeId,
+        // но оставляем страховку на случай нестандартного рендера.
+        if (entity.TypeId == Guid.Empty)
+        {
+            if (Guid.TryParse(form["typeId"], out var typeId))
+                entity.TypeId = typeId;
+            else
+                throw new InvalidOperationException("Не выбран тип документа.");
+        }
+
+        // Файл: загружаем, если пришёл, иначе используем уже сохранённый Url
+        if (file is not null && file.Length > 0)
+        {
+            var storage = context.GetService<DocumentStorageService>();
+            var uploaded = await storage.SaveAsync(file, context.CancellationToken);
+            entity.Url = uploaded.Url;
+        }
+        else if (string.IsNullOrWhiteSpace(entity.Url))
+        {
+            throw new InvalidOperationException("Загрузите файл документа.");
+        }
 
         return entity;
     });
+});
+
+            // =============================================================
+            // FAQ
+            // =============================================================
+            admin.Entity<Faq>(entity =>
+            {
+                entity.Name = "faqs";
+                entity.Label = "FAQ";
+                entity.Route = "faqs";
+
+                entity.Field("id", x => x.Id)
+                    .Label("ID").Field(new TextField()).ReadOnly();
+
+                entity.Field("question", x => x.Question)
+                    .Label("Вопрос").Field(new TextField()).Required();
+
+                entity.Field("answer", x => x.Answer)
+                    .Label("Ответ").Field(new WysiwygField());
+
+                entity.Create(async context => context.Entity);
             });
 
+            // =============================================================
             // Кейсы
+            // =============================================================
             admin.Entity<Case>(entity =>
             {
                 entity.Name = "cases";
@@ -103,7 +186,9 @@ public static class AdminRegistration
                 entity.Create(async context => context.Entity);
             });
 
+            // =============================================================
             // Новости
+            // =============================================================
             admin.Entity<New>(entity =>
             {
                 entity.Name = "news";
@@ -117,9 +202,9 @@ public static class AdminRegistration
                     .Label("Заголовок").Field(new TextField()).Required();
 
                 entity.Field("imgUrlId", x => x.ImgUrlId)
-                .Label("Изображение")
-                .Field(new ReferenceField<MediaFile>("media-files"))
-                .Required();
+                    .Label("Изображение")
+                    .Field(new ReferenceField<MediaFile>("media-files"))
+                    .Required();
 
                 entity.Field("description", x => x.Description)
                     .Label("Описание").Field(new TextField());
@@ -127,7 +212,9 @@ public static class AdminRegistration
                 entity.Create(async context => context.Entity);
             });
 
+            // =============================================================
             // Результаты операций
+            // =============================================================
             admin.Entity<OperationResult>(entity =>
             {
                 entity.Name = "operation-results";
@@ -155,7 +242,9 @@ public static class AdminRegistration
                 entity.Create(async context => context.Entity);
             });
 
+            // =============================================================
             // Проекты
+            // =============================================================
             admin.Entity<Project>(entity =>
             {
                 entity.Name = "projects";
@@ -179,6 +268,10 @@ public static class AdminRegistration
                 entity.Field("secondDescription", x => x.SecondDescription)
                     .Label("Второе описание").Field(new TextField());
 
+                // НОВОЕ: дата проекта
+                entity.Field("date", x => x.Date)
+                    .Label("Дата").Field(new DateField()).Required();
+
                 entity.Field("seasonCount", x => x.SeasonCount)
                     .Label("Количество сезонов")
                     .Field(new IntField { Min = 0 })
@@ -199,10 +292,16 @@ public static class AdminRegistration
                     .Field(new IntField { Min = 0 })
                     .Required();
 
+                entity.Field("projectStages", x => x.Stages)
+                    .Label("Стадии")
+                    .Field(new StringCollectionField());
+
                 entity.Create(async context => context.Entity);
             });
 
-            // Информация о слайде проекта
+            // =============================================================
+            // Слайды проектов
+            // =============================================================
             admin.Entity<ProjectSlideInfo>(entity =>
             {
                 entity.Name = "project-slide-infos";
@@ -231,7 +330,9 @@ public static class AdminRegistration
                 entity.Create(async context => context.Entity);
             });
 
+            // =============================================================
             // Акции
+            // =============================================================
             admin.Entity<Promotion>(entity =>
             {
                 entity.Name = "promotions";
@@ -244,8 +345,14 @@ public static class AdminRegistration
                 entity.Field("title", x => x.Title)
                     .Label("Название").Field(new TextField()).Required();
 
+                // НОВОЕ: изображение акции
+                entity.Field("imgUrlId", x => x.ImgUrlId)
+                    .Label("Изображение")
+                    .Field(new ReferenceField<MediaFile>("media-files"))
+                    .Required();
+
                 entity.Field("description", x => x.Description)
-                    .Label("Описание").Field(new TextField());
+                    .Label("Описание").Field(new WysiwygField());
 
                 entity.Field("date", x => x.Date)
                     .Label("Дата").Field(new DateField()).Required();
@@ -253,7 +360,9 @@ public static class AdminRegistration
                 entity.Create(async context => context.Entity);
             });
 
+            // =============================================================
             // Услуги
+            // =============================================================
             admin.Entity<Service>(entity =>
             {
                 entity.Name = "services";
@@ -304,7 +413,9 @@ public static class AdminRegistration
                 entity.Create(async context => context.Entity);
             });
 
+            // =============================================================
             // Категории услуг
+            // =============================================================
             admin.Entity<ServiceCategory>(entity =>
             {
                 entity.Name = "service-categories";
@@ -317,10 +428,160 @@ public static class AdminRegistration
                 entity.Field("title", x => x.Title)
                     .Label("Название").Field(new TextField()).Required();
 
+                entity.Field("imgUrlId", x => x.ImgUrlId)
+                    .Label("Изображение")
+                    .Field(new ReferenceField<MediaFile>("media-files"))
+                    .Required();
+
                 entity.Create(async context => context.Entity);
             });
 
+            // =============================================================
+            // Форматы проектов
+            // =============================================================
+            admin.Entity<ProjectFormat>(entity =>
+            {
+                entity.Name = "project-formats";
+                entity.Label = "Форматы проектов";
+                entity.Route = "project-formats";
+
+                entity.Field("id", x => x.Id)
+                    .Label("ID").Field(new TextField()).ReadOnly();
+
+                entity.Field("title", x => x.Title)
+                    .Label("Название").Field(new TextField()).Required();
+
+                entity.Field("description", x => x.Description)
+                    .Label("Описание").Field(new TextField());
+
+                entity.Field("imgId", x => x.ImgId)
+                    .Label("Изображение")
+                    .Field(new ReferenceField<MediaFile>("media-files"))
+                    .Required();
+
+                entity.Field("projectId", x => x.ProjectId)
+                    .Label("Проект")
+                    .Field(new ReferenceField<Project>("projects"))
+                    .Required();
+
+                entity.Create(async context =>
+                {
+                    var form = context.HttpContext.Request.Form;
+                    var entity = context.Entity;
+
+                    if (Guid.TryParse(form["projectId"], out var projectId))
+                        entity.ProjectId = projectId;
+                    else
+                        throw new InvalidOperationException("Не выбран проект.");
+
+                    if (Guid.TryParse(form["imgId"], out var imgId))
+                        entity.ImgId = imgId;
+                    else
+                        throw new InvalidOperationException("Не выбрано изображение.");
+
+                    return entity;
+                });
+            });
+
+            // =============================================================
+            // Партнёры проектов
+            // =============================================================
+            admin.Entity<ProjectPartner>(entity =>
+            {
+                entity.Name = "project-partners";
+                entity.Label = "Партнёры проектов";
+                entity.Route = "project-partners";
+
+                entity.Field("id", x => x.Id)
+                    .Label("ID").Field(new TextField()).ReadOnly();
+
+                entity.Field("title", x => x.Title)
+                    .Label("Название").Field(new TextField()).Required();
+
+                entity.Field("description", x => x.Description)
+                    .Label("Описание").Field(new TextField());
+
+                entity.Field("projectId", x => x.ProjectId)
+                    .Label("Проект")
+                    .Field(new ReferenceField<Project>("projects"))
+                    .Required();
+
+                entity.Create(async context => context.Entity);
+            });
+
+            // =============================================================
+            // Квалификации специалистов
+            // =============================================================
+            admin.Entity<Qualification>(entity =>
+            {
+                entity.Name = "qualifications";
+                entity.Label = "Квалификации";
+                entity.Route = "qualifications";
+
+                entity.Field("id", x => x.Id)
+                    .Label("ID").Field(new TextField()).ReadOnly();
+
+                entity.Field("title", x => x.Title)
+                    .Label("Название").Field(new TextField()).Required();
+
+                entity.Field("level", x => x.Level)
+                    .Label("Уровень").Field(new TextField()).Required();
+
+                entity.Field("organization", x => x.Organization)
+                    .Label("Организация").Field(new TextField()).Required();
+
+                entity.Field("issuanceDate", x => x.IssuanceDate)
+                    .Label("Дата выдачи").Field(new DateField()).Required();
+
+                entity.Field("specialistId", x => x.SpecialistId)
+                    .Label("Специалист")
+                    .Field(new ReferenceField<Specialist>("specialists"))
+                    .Required();
+
+                entity.Create(async context => context.Entity);
+            });
+
+            // =============================================================
+            // Аккредитации специалистов
+            // =============================================================
+            admin.Entity<Accreditation>(entity =>
+            {
+                entity.Name = "accreditations";
+                entity.Label = "Аккредитации";
+                entity.Route = "accreditations";
+
+                entity.Field("id", x => x.Id)
+                    .Label("ID").Field(new TextField()).ReadOnly();
+
+                entity.Field("documentType", x => x.DocumentType)
+                    .Label("Тип документа").Field(new TextField()).Required();
+
+                entity.Field("specialisation", x => x.Specialisation)
+                    .Label("Специализация").Field(new TextField()).Required();
+
+                entity.Field("jobTitle", x => x.JobTitle)
+                    .Label("Должность").Field(new TextField()).Required();
+
+                entity.Field("issuanceDate", x => x.IssuanceDate)
+                    .Label("Дата выдачи").Field(new DateField()).Required();
+
+                entity.Field("validityPeriod", x => x.ValidityPeriod)
+                    .Label("Срок действия").Field(new DateField()).Required();
+
+                entity.Field("description", x => x.Description)
+                    .Label("Описание").Field(new TextField());
+
+                entity.Field("specialistId", x => x.SpecialistId)
+                    .Label("Специалист")
+                    .Field(new ReferenceField<Specialist>("specialists"))
+                    .Required();
+
+                entity.Create(async context => context.Entity);
+            });
+
+            // =============================================================
             // Специалисты
+            // =============================================================
             admin.Entity<Specialist>(entity =>
             {
                 entity.Name = "specialists";

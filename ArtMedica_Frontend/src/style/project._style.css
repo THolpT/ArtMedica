@@ -1,0 +1,273 @@
+
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #1a1a1a;
+}
+
+.breadcrumbs {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 40px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.separator {
+  font-size: 12px;
+}
+
+.current {
+  color: #1a1a1a;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 60px;
+  gap: 20px;
+}
+
+.title-wrapper {
+  flex-shrink: 0;
+}
+
+.page-title {
+  font-size: 36px;
+  font-weight: 400;
+  color: #8FA3D3;
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+
+.header-description {
+  max-width: 620px;
+  text-align: left;
+  font-size: 20px;
+  line-height: 1.4;
+  color: #1a1a1a;
+  font-weight: 400;
+}
+
+.header-description p {
+  margin: 0;
+}
+
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card {
+  display: flex;
+  background-color: #F4F6FA;
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 340px;
+}
+
+.image-wrapper {
+  flex: 0 0 50%;
+  max-width: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.card:hover .image {
+  transform: scale(1.03);
+}
+
+.content-wrapper {
+  flex: 1;
+  padding: 30px 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.top-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.category {
+  font-size: 13px;
+  color: #666;
+}
+
+.arrow-link {
+  text-decoration: none;
+  color: #1a1a1a;
+  font-size: 20px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.arrow-link:hover {
+  transform: translate(2px, -2px);
+}
+
+.text-content {
+  flex-grow: 1;
+}
+
+.card-title {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0 0 15px 0;
+  line-height: 1.3;
+  color: #1a1a1a;
+}
+
+.card-description {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.bottom-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 25px;
+  gap: 15px;
+}
+
+.detail-button {
+  background-color: #3E2B2B;
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: inherit;
+}
+
+.detail-button:hover {
+  background-color: #5a4040;
+}
+
+.date {
+  font-size: 18px;
+  color: #91B5D5;
+  white-space: nowrap;
+  
+}
+
+.date-detail {
+  display: grid;
+  gap: 80px;
+}
+
+
+@media (max-width: 1024px) {
+  .page-title { font-size: 30px; }
+  .header-description { font-size: 18px; }
+  .card-title { font-size: 21px; }
+  .content-wrapper { padding: 25px; }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    margin-bottom: 30px;
+  }
+
+  .header-description {
+    text-align: left;
+    max-width: 100%;
+    font-size: 16px;
+  }
+
+  .header-description br {
+    display: none;
+  }
+
+  .card {
+    flex-direction: column;
+    min-height: auto;
+    background-color: #E8EEF7;
+  }
+
+  .image-wrapper {
+    display: none;
+  }
+
+  .content-wrapper {
+    padding: 24px 20px;
+    width: 100%;
+  }
+
+  .top-meta {
+    margin-bottom: 16px;
+  }
+
+  .card-title {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .card-description {
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-line-clamp: 4; 
+    color: #4a4a4a;
+  }
+
+  .bottom-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .detail-button {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 14px;
+    border-radius: 12px;
+    background-color: #3E2B2B;
+  }
+
+  .date {
+    font-size: 12px;
+    color: #8a8a8a;
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container { padding: 20px 15px; }
+  .page-title { font-size: 24px; }
+  .breadcrumbs { font-size: 12px; margin-bottom: 20px; }
+  .content-wrapper { padding: 20px 16px; }
+  .card-title { font-size: 17px; }
+  .card-description { font-size: 12.5px; }
+  .detail-button { padding: 12px 18px; font-size: 13px; }
+}
