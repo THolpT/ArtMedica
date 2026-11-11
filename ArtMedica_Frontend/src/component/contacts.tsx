@@ -1,4 +1,3 @@
-import React from 'react';
 import Max from "../image/max.svg"
 import VK from "../image/vk.svg"
 import Telegram from "../image/telegram.svg"

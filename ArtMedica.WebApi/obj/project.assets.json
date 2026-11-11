@@ -2106,26 +2106,6 @@
           }
         }
       },
-      "SixLabors.ImageSharp/4.1.3": {
-        "type": "package",
-        "dependencies": {
-          "System.IO.Hashing": "8.0.0"
-        },
-        "compile": {
-          "lib/net8.0/SixLabors.ImageSharp.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net8.0/SixLabors.ImageSharp.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "build/SixLabors.ImageSharp.props": {},
-          "build/SixLabors.ImageSharp.targets": {}
-        }
-      },
       "Swashbuckle.AspNetCore.Swagger/10.3.0": {
         "type": "package",
         "dependencies": {
@@ -2329,22 +2309,6 @@
         },
         "runtime": {
           "lib/netstandard2.0/System.Data.DataSetExtensions.dll": {}
-        }
-      },
-      "System.IO.Hashing/8.0.0": {
-        "type": "package",
-        "compile": {
-          "lib/net8.0/System.IO.Hashing.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net8.0/System.IO.Hashing.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "buildTransitive/net6.0/_._": {}
         }
       },
       "System.Reflection.MetadataLoadContext/8.0.0": {
@@ -6011,26 +5975,6 @@
         "saritasa.tools.common.nuspec"
       ]
     },
-    "SixLabors.ImageSharp/4.1.3": {
-      "sha512": "VzzKPgdC0ZupEg937iKpg2cEGXudnFyQRwiHfIvtCKSlFUaxVbLjW3AztDhyk06z+4NzD7IAlMf7fqU57WXyBQ==",
-      "type": "package",
-      "path": "sixlabors.imagesharp/4.1.3",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE",
-        "build/SixLabors.ImageSharp.props",
-        "build/SixLabors.ImageSharp.targets",
-        "build/net472/SixLabors.Licensing.dll",
-        "build/net6.0/SixLabors.Licensing.dll",
-        "build/net8.0/SixLabors.Licensing.dll",
-        "lib/net8.0/SixLabors.ImageSharp.dll",
-        "lib/net8.0/SixLabors.ImageSharp.xml",
-        "sixlabors.imagesharp.128.png",
-        "sixlabors.imagesharp.4.1.3.nupkg.sha512",
-        "sixlabors.imagesharp.nuspec"
-      ]
-    },
     "Swashbuckle.AspNetCore.Swagger/10.3.0": {
       "sha512": "/W3Vdf8TeHAk6Pw6H/rduW6LQbzxKhUVnqtUFNHj/qUrLjlEZeVN8Q5WWgyGc3DLHRKlXm82kKCYfWRvx3/WCg==",
       "type": "package",
@@ -6327,36 +6271,6 @@
         "version.txt"
       ]
     },
-    "System.IO.Hashing/8.0.0": {
-      "sha512": "ne1843evDugl0md7Fjzy6QjJrzsjh46ZKbhf8GwBXb5f/gw97J4bxMs0NQKifDuThh/f0bZ0e62NPl1jzTuRqA==",
-      "type": "package",
-      "path": "system.io.hashing/8.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "LICENSE.TXT",
-        "PACKAGE.md",
-        "THIRD-PARTY-NOTICES.TXT",
-        "buildTransitive/net461/System.IO.Hashing.targets",
-        "buildTransitive/net462/_._",
-        "buildTransitive/net6.0/_._",
-        "buildTransitive/netcoreapp2.0/System.IO.Hashing.targets",
-        "lib/net462/System.IO.Hashing.dll",
-        "lib/net462/System.IO.Hashing.xml",
-        "lib/net6.0/System.IO.Hashing.dll",
-        "lib/net6.0/System.IO.Hashing.xml",
-        "lib/net7.0/System.IO.Hashing.dll",
-        "lib/net7.0/System.IO.Hashing.xml",
-        "lib/net8.0/System.IO.Hashing.dll",
-        "lib/net8.0/System.IO.Hashing.xml",
-        "lib/netstandard2.0/System.IO.Hashing.dll",
-        "lib/netstandard2.0/System.IO.Hashing.xml",
-        "system.io.hashing.8.0.0.nupkg.sha512",
-        "system.io.hashing.nuspec",
-        "useSharedDesignerContext.txt"
-      ]
-    },
     "System.Reflection.MetadataLoadContext/8.0.0": {
       "sha512": "SZxrQ4sQYnIcdwiO3G/lHZopbPYQ2lW0ioT4JezgccWUrKaKbHLJbAGZaDfkYjWcta1pWssAo3MOXLsR0ie4tQ==",
       "type": "package",
@@ -6481,7 +6395,6 @@
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 10.0.2",
       "RazorRichText >= 10.0.1",
       "Saritasa.NetForge >= 1.2.0",
-      "SixLabors.ImageSharp >= 4.1.3",
       "Swashbuckle.AspNetCore.Swagger >= 10.3.0",
       "Swashbuckle.AspNetCore.SwaggerGen >= 10.3.0",
       "Swashbuckle.AspNetCore.SwaggerUI >= 10.3.0"
@@ -6573,10 +6486,6 @@
           "Saritasa.NetForge": {
             "target": "Package",
             "version": "[1.2.0, )"
-          },
-          "SixLabors.ImageSharp": {
-            "target": "Package",
-            "version": "[4.1.3, )"
           },
           "Swashbuckle.AspNetCore.Swagger": {
             "target": "Package",

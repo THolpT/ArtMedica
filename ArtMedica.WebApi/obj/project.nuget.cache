@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "NpjvLIPWzN0=",
+  "dgSpecHash": "u8PnnwzIz04=",
   "success": true,
   "projectFilePath": "/mnt/second_disk/projects/ArtMedica.WebApi/ArtMedica.WebApi.csproj",
   "expectedPackageFiles": [
@@ -119,7 +119,6 @@
     "/home/holp/.nuget/packages/razorrichtext/10.0.1/razorrichtext.10.0.1.nupkg.sha512",
     "/home/holp/.nuget/packages/saritasa.netforge/1.2.0/saritasa.netforge.1.2.0.nupkg.sha512",
     "/home/holp/.nuget/packages/saritasa.tools.common/5.0.0/saritasa.tools.common.5.0.0.nupkg.sha512",
-    "/home/holp/.nuget/packages/sixlabors.imagesharp/4.1.3/sixlabors.imagesharp.4.1.3.nupkg.sha512",
     "/home/holp/.nuget/packages/swashbuckle.aspnetcore.swagger/10.3.0/swashbuckle.aspnetcore.swagger.10.3.0.nupkg.sha512",
     "/home/holp/.nuget/packages/swashbuckle.aspnetcore.swaggergen/10.3.0/swashbuckle.aspnetcore.swaggergen.10.3.0.nupkg.sha512",
     "/home/holp/.nuget/packages/swashbuckle.aspnetcore.swaggerui/10.3.0/swashbuckle.aspnetcore.swaggerui.10.3.0.nupkg.sha512",
@@ -132,7 +131,6 @@
     "/home/holp/.nuget/packages/system.composition.typedparts/9.0.0/system.composition.typedparts.9.0.0.nupkg.sha512",
     "/home/holp/.nuget/packages/system.configuration.configurationmanager/9.0.0/system.configuration.configurationmanager.9.0.0.nupkg.sha512",
     "/home/holp/.nuget/packages/system.data.datasetextensions/4.5.0/system.data.datasetextensions.4.5.0.nupkg.sha512",
-    "/home/holp/.nuget/packages/system.io.hashing/8.0.0/system.io.hashing.8.0.0.nupkg.sha512",
     "/home/holp/.nuget/packages/system.reflection.metadataloadcontext/8.0.0/system.reflection.metadataloadcontext.8.0.0.nupkg.sha512",
     "/home/holp/.nuget/packages/system.security.cryptography.pkcs/6.0.4/system.security.cryptography.pkcs.6.0.4.nupkg.sha512",
     "/home/holp/.nuget/packages/system.security.cryptography.protecteddata/9.0.6/system.security.cryptography.protecteddata.9.0.6.nupkg.sha512"

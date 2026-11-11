@@ -22,7 +22,7 @@ export const Services = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    apiGet<ApiServiceCategory[]>("/api/public/service-categories")
+    apiGet<ApiServiceCategory[]>("/public/service-categories")
       .then(setCategories)
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));

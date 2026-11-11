@@ -1,8 +1,6 @@
 
 using System.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Webp;
 
 namespace ArtMedica.WebApi.Services;
 
@@ -63,24 +61,22 @@ public sealed class MediaStorageService
 
         var type = isImage ? "image" : "video";
 
-        var outputExtension = isImage
-            ? ".webp"
-            : ".mp4";
+        var outputExtension = isImage ? ".webp" : ".mp4";
 
         var fileName = $"{Guid.NewGuid():N}{outputExtension}";
-        var path = Path.Combine(directory, fileName);
+        var outputPath = Path.Combine(directory, fileName);
 
         try
         {
             if (isImage)
             {
                 await ConvertImageAsync(
-                    file, path, cancellationToken);
+                    file, outputPath, directory, cancellationToken);
             }
             else
             {
                 await ConvertVideoAsync(
-                    file, path, directory, cancellationToken);
+                    file, outputPath, directory, cancellationToken);
             }
 
             return new UploadedMedia(
@@ -90,34 +86,68 @@ public sealed class MediaStorageService
         }
         catch
         {
-            if (File.Exists(path))
-                File.Delete(path);
+            if (File.Exists(outputPath))
+                File.Delete(outputPath);
 
             throw;
         }
     }
 
+    // ==========================================
+    // IMAGE → WEBP
+    // ==========================================
+
     private static async Task ConvertImageAsync(
         IFormFile file,
         string outputPath,
+        string directory,
         CancellationToken cancellationToken)
     {
-        await using var input = file.OpenReadStream();
+        var tempInput = Path.Combine(
+            directory, $"{Guid.NewGuid():N}.tmp");
 
-        using var image = await Image.LoadAsync(
-            input, cancellationToken);
-
-        var encoder = new WebpEncoder
+        try
         {
-            Quality = 85,
-            FileFormat = WebpFileFormatType.Lossy
-        };
+            await SaveTempFileAsync(
+                file, tempInput, cancellationToken);
 
-        await image.SaveAsync(
-            outputPath,
-            encoder,
-            cancellationToken);
+            var arguments = new[]
+            {
+                "-nostdin",
+                "-hide_banner",
+                "-loglevel", "error",
+
+                "-i", tempInput,
+
+                "-frames:v", "1",
+
+                "-c:v", "libwebp",
+                "-quality", "85",
+                "-compression_level", "4",
+
+                "-f", "webp",
+                "-y", outputPath
+            };
+
+            await RunFfmpegAsync(arguments, cancellationToken);
+
+            if (!File.Exists(outputPath) ||
+                new FileInfo(outputPath).Length == 0)
+            {
+                throw new InvalidOperationException(
+                    "FFmpeg не создал изображение WebP.");
+            }
+        }
+        finally
+        {
+            if (File.Exists(tempInput))
+                File.Delete(tempInput);
+        }
     }
+
+    // ==========================================
+    // VIDEO → MP4
+    // ==========================================
 
     private static async Task ConvertVideoAsync(
         IFormFile file,
@@ -125,127 +155,126 @@ public sealed class MediaStorageService
         string directory,
         CancellationToken cancellationToken)
     {
-        var inputExtension = Path.GetExtension(file.FileName);
-
         var tempInput = Path.Combine(
-            directory,
-            $"{Guid.NewGuid():N}{inputExtension}");
-
-        var tempOutput = Path.Combine(
-            directory,
-            $"{Guid.NewGuid():N}.mp4");
+            directory, $"{Guid.NewGuid():N}.tmp");
 
         try
         {
-            await using (var input = new FileStream(
-                tempInput,
-                FileMode.CreateNew,
-                FileAccess.Write,
-                FileShare.None,
-                81920,
-                useAsync: true))
-            {
-                await file.CopyToAsync(input, cancellationToken);
-            }
+            await SaveTempFileAsync(
+                file, tempInput, cancellationToken);
 
-            var startInfo = new ProcessStartInfo
+            var arguments = new[]
             {
-                FileName = FfmpegPath,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                RedirectStandardError = true
+                "-nostdin",
+                "-hide_banner",
+                "-loglevel", "error",
+
+                "-i", tempInput,
+
+                "-map", "0:v:0",
+                "-map", "0:a:0?",
+
+                "-c:v", "libx264",
+                "-preset", "medium",
+                "-crf", "23",
+                "-pix_fmt", "yuv420p",
+
+                "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2",
+
+                "-c:a", "aac",
+                "-b:a", "128k",
+
+                "-movflags", "+faststart",
+
+                "-f", "mp4",
+                "-y", outputPath
             };
 
-            startInfo.ArgumentList.Add("-nostdin");
-            startInfo.ArgumentList.Add("-hide_banner");
-            startInfo.ArgumentList.Add("-loglevel");
-            startInfo.ArgumentList.Add("error");
+            await RunFfmpegAsync(arguments, cancellationToken);
 
-            startInfo.ArgumentList.Add("-i");
-            startInfo.ArgumentList.Add(tempInput);
-
-            startInfo.ArgumentList.Add("-map");
-            startInfo.ArgumentList.Add("0:v:0");
-
-            startInfo.ArgumentList.Add("-map");
-            startInfo.ArgumentList.Add("0:a:0?");
-
-            startInfo.ArgumentList.Add("-c:v");
-            startInfo.ArgumentList.Add("libx264");
-
-            startInfo.ArgumentList.Add("-preset");
-            startInfo.ArgumentList.Add("medium");
-
-            startInfo.ArgumentList.Add("-crf");
-            startInfo.ArgumentList.Add("23");
-
-            startInfo.ArgumentList.Add("-pix_fmt");
-            startInfo.ArgumentList.Add("yuv420p");
-
-            startInfo.ArgumentList.Add("-vf");
-            startInfo.ArgumentList.Add(
-                "scale=trunc(iw/2)*2:trunc(ih/2)*2");
-
-            startInfo.ArgumentList.Add("-c:a");
-            startInfo.ArgumentList.Add("aac");
-
-            startInfo.ArgumentList.Add("-b:a");
-            startInfo.ArgumentList.Add("128k");
-
-            startInfo.ArgumentList.Add("-movflags");
-            startInfo.ArgumentList.Add("+faststart");
-
-            startInfo.ArgumentList.Add("-y");
-            startInfo.ArgumentList.Add(tempOutput);
-
-            using var process = new Process
-            {
-                StartInfo = startInfo
-            };
-
-            if (!process.Start())
-                throw new InvalidOperationException(
-                    "Не удалось запустить FFmpeg.");
-
-            var errorTask = process.StandardError.ReadToEndAsync();
-
-            try
-            {
-                await process.WaitForExitAsync(cancellationToken);
-            }
-            catch
-            {
-                if (!process.HasExited)
-                    process.Kill(entireProcessTree: true);
-
-                await process.WaitForExitAsync();
-
-                throw;
-            }
-
-            var error = await errorTask;
-
-            if (process.ExitCode != 0)
-                throw new InvalidOperationException(
-                    $"Ошибка конвертации видео: {error}");
-
-            if (!File.Exists(tempOutput) ||
-                new FileInfo(tempOutput).Length == 0)
+            if (!File.Exists(outputPath) ||
+                new FileInfo(outputPath).Length == 0)
             {
                 throw new InvalidOperationException(
-                    "FFmpeg не создал выходной файл.");
+                    "FFmpeg не создал выходное видео.");
             }
-
-            File.Move(tempOutput, outputPath);
         }
         finally
         {
             if (File.Exists(tempInput))
                 File.Delete(tempInput);
-
-            if (File.Exists(tempOutput))
-                File.Delete(tempOutput);
         }
+    }
+
+    // ==========================================
+    // SAVE TEMP FILE
+    // ==========================================
+
+    private static async Task SaveTempFileAsync(
+        IFormFile file,
+        string path,
+        CancellationToken cancellationToken)
+    {
+        await using var output = new FileStream(
+            path,
+            FileMode.CreateNew,
+            FileAccess.Write,
+            FileShare.None,
+            81920,
+            useAsync: true);
+
+        await file.CopyToAsync(output, cancellationToken);
+    }
+
+    // ==========================================
+    // RUN FFMPEG
+    // ==========================================
+
+    private static async Task RunFfmpegAsync(
+        IEnumerable<string> arguments,
+        CancellationToken cancellationToken)
+    {
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = FfmpegPath,
+            UseShellExecute = false,
+            CreateNoWindow = true,
+            RedirectStandardError = true
+        };
+
+        foreach (var argument in arguments)
+            startInfo.ArgumentList.Add(argument);
+
+        using var process = new Process
+        {
+            StartInfo = startInfo
+        };
+
+        if (!process.Start())
+            throw new InvalidOperationException(
+                "Не удалось запустить FFmpeg.");
+
+        var errorTask = process.StandardError.ReadToEndAsync();
+
+        try
+        {
+            await process.WaitForExitAsync(cancellationToken);
+        }
+        catch
+        {
+            if (!process.HasExited)
+                process.Kill(entireProcessTree: true);
+
+            await process.WaitForExitAsync();
+
+            throw;
+        }
+
+        var error = await errorTask;
+
+        if (process.ExitCode != 0)
+            throw new InvalidOperationException(
+                $"Ошибка FFmpeg: {error}");
     }
 }
 

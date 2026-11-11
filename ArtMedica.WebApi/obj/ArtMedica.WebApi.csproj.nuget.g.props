@@ -13,7 +13,6 @@
     <SourceRoot Include="/home/holp/.nuget/packages/" />
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Import Project="$(NuGetPackageRoot)sixlabors.imagesharp/4.1.3/build/SixLabors.ImageSharp.props" Condition="Exists('$(NuGetPackageRoot)sixlabors.imagesharp/4.1.3/build/SixLabors.ImageSharp.props')" />
     <Import Project="$(NuGetPackageRoot)mudblazor/8.0.0/buildTransitive/MudBlazor.props" Condition="Exists('$(NuGetPackageRoot)mudblazor/8.0.0/buildTransitive/MudBlazor.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore/10.0.12/buildTransitive/net10.0/Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore/10.0.12/buildTransitive/net10.0/Microsoft.EntityFrameworkCore.props')" />
     <Import Project="$(NuGetPackageRoot)saritasa.netforge/1.2.0/buildTransitive/Saritasa.NetForge.props" Condition="Exists('$(NuGetPackageRoot)saritasa.netforge/1.2.0/buildTransitive/Saritasa.NetForge.props')" />

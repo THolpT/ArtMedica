@@ -1,0 +1,128 @@
+
+services:
+
+  # ========================================
+  # PostgreSQL
+  # ========================================
+  postgres:
+    image: postgres:17-alpine
+    container_name: artmedica-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: opa
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d opa"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+    networks:
+      - artmedica-network
+
+
+  # ========================================
+  # Entity Framework Migrations
+  # ========================================
+  migrator:
+    container_name: artmedica-migrator
+
+    build:
+      context: .
+      dockerfile: ArtMedica.WebApi/Dockerfile
+      target: migrator
+
+    command:
+      - database
+      - update
+      - --project
+      - ArtMedica.Application/ArtMedica.Application.csproj
+      - --startup-project
+      - ArtMedica.WebApi/ArtMedica.WebApi.csproj
+      - --configuration
+      - Release
+
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=opa;Username=postgres;Password=postgres"
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    networks:
+      - artmedica-network
+
+
+  # ========================================
+  # ASP.NET Core API
+  # ========================================
+  api:
+    container_name: artmedica-api
+
+    build:
+      context: .
+      dockerfile: ArtMedica.WebApi/Dockerfile
+      target: runtime
+
+    restart: unless-stopped
+
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:8080
+
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=opa;Username=postgres;Password=postgres"
+
+    ports:
+      - "5102:8080"
+
+    depends_on:
+      migrator:
+        condition: service_completed_successfully
+
+    networks:
+      - artmedica-network
+
+
+  # ========================================
+  # React Frontend
+  # ========================================
+  frontend:
+    container_name: artmedica-frontend
+
+    build:
+      context: ./ArtMedica_Frontend
+      dockerfile: Dockerfile
+
+      args:
+        VITE_API_URL: /api
+
+    restart: unless-stopped
+
+    ports:
+      - "3000:80"
+
+    depends_on:
+      - api
+
+    networks:
+      - artmedica-network
+
+
+volumes:
+  postgres_data:
+
+
+networks:
+  artmedica-network:
+    driver: bridge
