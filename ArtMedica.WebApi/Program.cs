@@ -66,8 +66,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("Frontend");
 
-app.UsePathBase("/admin");
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
