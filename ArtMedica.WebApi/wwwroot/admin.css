@@ -770,3 +770,126 @@ body {
     padding: 0;
     font-weight: bold;
 }
+
+/* =========================
+   WELCOME / INSTRUCTION CARD
+   ========================= */
+
+.admin-card-body {
+    padding: 24px;
+}
+
+.welcome-description {
+    margin: 0 0 16px;
+
+    color: #475467;
+
+    font-size: 15px;
+    line-height: 1.65;
+}
+
+.welcome-description.mb-0 {
+    margin-bottom: 0;
+}
+
+.admin-card-body hr {
+    margin: 22px 0;
+
+    border: 0;
+    border-top: 1px solid #e5e7eb;
+}
+
+.admin-card-body h5 {
+    margin: 0 0 16px;
+
+    color: #202632;
+
+    font-size: 16px;
+    font-weight: 650;
+}
+
+/* Нумерованный список с кружками */
+
+.instruction-list {
+    margin: 0 0 20px;
+    padding: 0;
+
+    list-style: none;
+
+    counter-reset: step;
+}
+
+.instruction-list li {
+    position: relative;
+
+    padding-left: 44px;
+
+    margin-bottom: 16px;
+
+    color: #475467;
+
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.instruction-list li:last-child {
+    margin-bottom: 0;
+}
+
+.instruction-list li strong {
+    color: #202632;
+    font-weight: 650;
+}
+
+.instruction-list li::before {
+    counter-increment: step;
+    content: counter(step);
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 28px;
+    height: 28px;
+
+    border-radius: 50%;
+
+    background: #eff6ff;
+    color: #2563eb;
+
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* Мобильная адаптация */
+
+@media (max-width: 768px) {
+
+    .admin-card-body {
+        padding: 17px;
+    }
+
+    .admin-card-body h5 {
+        font-size: 15px;
+    }
+
+    .welcome-description,
+    .instruction-list li {
+        font-size: 14px;
+    }
+
+    .instruction-list li {
+        padding-left: 38px;
+    }
+
+    .instruction-list li::before {
+        width: 24px;
+        height: 24px;
+        font-size: 12px;
+    }
+}

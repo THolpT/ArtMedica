@@ -2,6 +2,7 @@ using ArtMedica.WebApi.Abstractions;
 using ArtMedica.WebApi.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Primitives;
 
 namespace ArtMedica.WebApi.Pages.Admin;
 public class CreateModel : PageModel
@@ -45,20 +46,15 @@ public class CreateModel : PageModel
 
         var form = await Request.ReadFormAsync(cancellationToken);
 
-        var values = new Dictionary<string, object?>();
+var values = new Dictionary<string, object?>();
 
-        foreach (var field in Definition.Fields)
-        {
-            if (field.ReadOnly)
-                continue;
+foreach (var field in Definition.Fields)
+{
+    if (field.ReadOnly)
+        continue;
 
-            var value = form[field.Name];
-
-            values[field.Name] =
-                value.Count > 0
-                    ? value.ToString()
-                    : null;
-        }
+    values[field.Name] = ConvertFormValue(field, form[field.Name]);
+}
 
         try
         {
@@ -109,4 +105,25 @@ public class CreateModel : PageModel
 
         return error?.ErrorMessage;
     }
+
+    private static object? ConvertFormValue(FieldDefinition field, StringValues value)
+{
+    if (value.Count == 0)
+        return null;
+
+    // Поле-коллекция строк: возвращаем string[] без пустых элементов
+    if (field.Field is StringCollectionField)
+    {
+        var array = value
+            .Where(v => !string.IsNullOrWhiteSpace(v))
+            .Select(v => v!)
+            .ToArray();
+
+        return array.Length == 0 ? null : array;
+    }
+
+    // Обычное одиночное поле
+    var raw = value.ToString();
+    return string.IsNullOrEmpty(raw) ? null : raw;
+}
 }
