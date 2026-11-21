@@ -11,7 +11,7 @@ services:
 
     environment:
       POSTGRES_USER: pg_owner_9f3k2m
-      POSTGRES_PASSWORD: K9#vT2$mQ7!xL4@zR8&cN3*pW6^sB1
+      POSTGRES_PASSWORD: "K9#vT2$$mQ7!xL4@zR8&cN3*pW6^sB1"
       POSTGRES_DB: opa
 
     ports:
@@ -54,7 +54,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
 
-      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=opa;Username=pg_owner_9f3k2m;Password=K9#vT2$mQ7!xL4@zR8&cN3*pW6^sB1"
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=opa;Username=pg_owner_9f3k2m;Password=K9#vT2$$mQ7!xL4@zR8&cN3*pW6^sB1"
 
     depends_on:
       postgres:
@@ -80,8 +80,8 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_URLS: http://+:8080
-
-      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=opa;Username=postgres;Password=postgres"
+      
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=opa;Username=pg_owner_9f3k2m;Password=K9#vT2$$mQ7!xL4@zR8&cN3*pW6^sB1"
 
     ports:
       - "5102:8080"
