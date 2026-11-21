@@ -21,7 +21,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d opa"]
+      test: ["CMD-SHELL", "pg_isready -U pg_owner_9f3k2m -d opa"]
       interval: 5s
       timeout: 5s
       retries: 10
