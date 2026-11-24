@@ -10,8 +10,8 @@ services:
     restart: unless-stopped
 
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: artmedica_owner
+      POSTGRES_PASSWORD: "K9#vT2$$mQ7!xL4@zR8&cN3*pW6^sB1"
       POSTGRES_DB: opa
 
     ports:
@@ -21,7 +21,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d opa"]
+      test: ["CMD-SHELL", "pg_isready -U artmedica_owner -d opa"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -54,7 +54,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
 
-      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=opa;Username=postgres;Password=postgres"
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=opa;Username=artmedica_owner;Password=K9#vT2$$mQ7!xL4@zR8&cN3*pW6^sB1"
 
     depends_on:
       postgres:
@@ -80,8 +80,8 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_URLS: http://+:8080
-
-      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=opa;Username=postgres;Password=postgres"
+      
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=opa;Username=artmedica_owner;Password=K9#vT2$$mQ7!xL4@zR8&cN3*pW6^sB1"
 
     ports:
       - "5102:8080"
