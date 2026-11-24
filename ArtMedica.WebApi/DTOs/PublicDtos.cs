@@ -10,6 +10,8 @@ public class MediaFileDto
     public string Url { get; set; } = null!;
 }
 
+// ---------- УСЛУГИ ----------
+
 public class ServiceCategoryDto
 {
     public Guid Id { get; set; }
@@ -17,7 +19,14 @@ public class ServiceCategoryDto
     public MediaFileDto ImgUrl { get; set; } = null!;
 }
 
-public class CategoryWithServicesDto : ServiceCategoryDto
+public class ServiceSubcategoryDto
+{
+    public Guid Id { get; set; }
+    public string Title { get; set; } = null!;
+    public MediaFileDto ImgUrl { get; set; } = null!;
+    public string? Description { get; set; }   // НОВОЕ
+}
+public class SubcategoryWithServicesDto : ServiceSubcategoryDto
 {
     public List<ServiceDto> Services { get; set; } = new();
 }
@@ -34,7 +43,7 @@ public class ServiceDto
     public string? Description { get; set; }
     public string? Preparation { get; set; }
     public string? Types { get; set; }
-    public Guid CategoryId { get; set; }
+    public Guid SubcategoryId { get; set; }
 }
 
 public class OperationResultDto

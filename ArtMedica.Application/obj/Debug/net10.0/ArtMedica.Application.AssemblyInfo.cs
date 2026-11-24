@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ArtMedica.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9f7aab9eda60b66ce7e2bad61ede3d0fa5d26430")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b3ccdf6b18f549e36636c546e3330fb9fa22b51b")]
 [assembly: System.Reflection.AssemblyProductAttribute("ArtMedica.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ArtMedica.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

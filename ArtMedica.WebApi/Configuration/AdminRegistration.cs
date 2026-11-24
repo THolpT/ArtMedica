@@ -406,13 +406,43 @@ public static class AdminRegistration
                     .Label("Типы").Field(new TextField());
 
                 entity.Field("categoryId", x => x.CategoryId)
-                    .Label("Категория")
-                    .Field(new ReferenceField<ServiceCategory>("service-categories"))
-                    .Required();
+    .Label("Подкатегория")
+    .Field(new ReferenceField<ServiceSubcategory>("service-subcategories"))
+    .Required();
 
                 entity.Create(async context => context.Entity);
             });
 
+            // =============================================================
+// Подкатегории услуг
+// =============================================================
+admin.Entity<ServiceSubcategory>(entity =>
+{
+    entity.Name = "service-subcategories";
+    entity.Label = "Подкатегории услуг";
+    entity.Route = "service-subcategories";
+
+    entity.Field("id", x => x.Id)
+        .Label("ID").Field(new TextField()).ReadOnly();
+
+    entity.Field("title", x => x.Title)
+        .Label("Название").Field(new TextField()).Required();
+
+    entity.Field("description", x => x.Description)
+        .Label("Описание").Field(new TextField());
+
+    entity.Field("imgUrlId", x => x.ImgUrlId)
+        .Label("Изображение")
+        .Field(new ReferenceField<MediaFile>("media-files"))
+        .Required();
+
+    entity.Field("categoryId", x => x.CategoryId)
+        .Label("Категория")
+        .Field(new ReferenceField<ServiceCategory>("service-categories"))
+        .Required();
+
+    entity.Create(async context => context.Entity);
+});
             // =============================================================
             // Категории услуг
             // =============================================================

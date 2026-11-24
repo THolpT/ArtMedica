@@ -7,6 +7,8 @@ namespace ArtMedica.WebApi.Pages.Account;
 
 public class LoginModel : PageModel
 {
+    private const string DefaultReturnUrl = "~/Admin";
+
     private readonly SignInManager<IdentityUser> _signInManager;
 
     public LoginModel(SignInManager<IdentityUser> signInManager)
@@ -38,22 +40,33 @@ public class LoginModel : PageModel
         public bool RememberMe { get; set; }
     }
 
-    public void OnGet(string? returnUrl = null)
+    public IActionResult OnGet(string? returnUrl = null)
     {
+        var target = ResolveReturnUrl(returnUrl);
+
+        if (User.Identity?.IsAuthenticated == true)
+        {
+            return LocalRedirect(target);
+        }
+
         if (!string.IsNullOrEmpty(ErrorMessage))
         {
             ModelState.AddModelError(string.Empty, ErrorMessage);
         }
 
-        ReturnUrl = returnUrl ?? Url.Content("~/coreadmin");
+        ReturnUrl = target;
+        return Page();
     }
 
     public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
     {
-        returnUrl ??= Url.Content("~/coreadmin");
+        // Приоритет: query-строка → свойство из формы → значение по умолчанию
+        var target = ResolveReturnUrl(
+            Url.IsLocalUrl(returnUrl) ? returnUrl : ReturnUrl);
 
         if (!ModelState.IsValid)
         {
+            ReturnUrl = target;
             return Page();
         }
 
@@ -65,18 +78,24 @@ public class LoginModel : PageModel
 
         if (result.Succeeded)
         {
-            return LocalRedirect(returnUrl);
+            return LocalRedirect(target);
         }
 
-        if (result.IsLockedOut)
-        {
-            ModelState.AddModelError(string.Empty, "Аккаунт заблокирован.");
-        }
-        else
-        {
-            ModelState.AddModelError(string.Empty, "Неверный email или пароль.");
-        }
+        ModelState.AddModelError(
+            string.Empty,
+            result.IsLockedOut
+                ? "Аккаунт заблокирован."
+                : "Неверный email или пароль.");
 
+        ReturnUrl = target;
         return Page();
+    }
+
+    private string ResolveReturnUrl(string? candidate)
+    {
+        if (Url.IsLocalUrl(candidate))
+            return candidate!;
+
+        return Url.Content(DefaultReturnUrl);
     }
 }

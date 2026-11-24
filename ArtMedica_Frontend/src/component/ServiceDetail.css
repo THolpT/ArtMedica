@@ -1,0 +1,437 @@
+/* Page: Услуги / Пластика лица / Блефаропластика
+   A 1:1 copy of the 1920px mockup: content is 1720px wide (x = 100 … 1820).
+   Between 1200px and 1920px the whole page is scaled proportionally (see hooks/useDesignScale.ts);
+   below 1200px the page switches to a stacked layout (rules at the bottom). */
+
+.svc-page {
+  --svc-gutter: max(100px, calc((100% - 1720px) / 2)); /* side space: 100px, grows on screens wider than 1920px */
+  position: relative;
+  overflow-x: clip; /* keeps the decorative gradients inside the page */
+  font-family: 'Onest', 'Segoe UI', Arial, sans-serif;
+  color: #000;
+}
+
+/* ---------- Breadcrumbs, title, tabs ---------- */
+
+.svc-breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+  padding: 0 var(--svc-gutter);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #37241B;
+}
+
+.svc-breadcrumbs a {
+  color: #37241B;
+}
+
+.svc-breadcrumbs a:first-child {
+  font-weight: 400;
+}
+
+.svc-breadcrumbs a:hover {
+  text-decoration: underline;
+}
+
+.svc-breadcrumbs-sep {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.svc-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin: 56px 0 0;
+  padding: 0 var(--svc-gutter);
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 51.5px;
+  color: #91B5D5;
+  white-space: nowrap;
+}
+
+.svc-title-arrow {
+  flex-shrink: 0;
+  margin-top: 16.5px;
+  overflow: visible;
+}
+
+.svc-tabs {
+  display: flex;
+  gap: 20px;
+  margin-top: 120.5px;
+  padding: 0 var(--svc-gutter);
+}
+
+.svc-tab {
+  display: flex;
+  flex: 0 0 270px;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 270px;
+  height: 120px;
+  border-radius: 10px;
+  background: #F4F7FF;
+  color: #000;
+  padding-bottom: 2px;
+  font-size: 24px;
+  font-weight: 300;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.svc-tab:hover {
+  background: #E6EDFF;
+}
+
+.svc-tab:focus-visible {
+  outline: 3px solid #91B5D5;
+  outline-offset: 3px;
+}
+
+/* ---------- Sections ---------- */
+
+.svc-section {
+  position: relative;
+  margin-top: 153px;
+}
+
+.svc-h2 {
+  margin: 0 0 42px;
+  padding: 0 var(--svc-gutter);
+  font-size: 64px;
+  font-weight: 500;
+  line-height: 77px;
+  color: #000;
+}
+
+.svc-text {
+  margin: 0;
+  padding: 0 var(--svc-gutter) 0 calc(var(--svc-gutter) + 9.75px); /* text is indented ~10px from the headings */
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 52px;
+  color: #000;
+}
+
+/* numbered list of problems */
+
+.svc-list {
+  margin: 0;
+  padding: 0 var(--svc-gutter) 0 calc(var(--svc-gutter) + 10px);
+  counter-reset: svc-item;
+}
+
+.svc-list-item {
+  counter-increment: svc-item;
+  display: grid;
+  grid-template-columns: 88.5px minmax(0, 1fr);
+  align-items: center;
+  box-sizing: border-box;
+  height: 112px;
+  border-bottom: 1px solid #8E949E;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 44px;
+  color: #000;
+}
+
+.svc-list-item::before {
+  content: counter(svc-item);
+  font-size: 33.5px;
+  color: #8E949E;
+}
+
+/* before / after collages */
+
+/* the mockup places this paragraph 1px further left */
+.svc-type + .svc-type .svc-text {
+  padding-left: calc(var(--svc-gutter) + 8.75px);
+}
+
+.svc-type + .svc-type {
+  margin-top: 110px;
+}
+
+.svc-pairs {
+  display: flex;
+  gap: 165px;
+  margin-top: 110px;
+  padding: 0 var(--svc-gutter);
+}
+
+.svc-pair {
+  display: block;
+  flex: 0 0 auto;
+  width: 415px;
+  height: 622px;
+}
+
+/* ---------- Results slider ---------- */
+
+.svc-slider {
+  display: flex;
+  gap: 20px;
+  padding: 0 var(--svc-gutter);
+}
+
+.svc-slider-controls {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  padding: 0 var(--svc-gutter);
+}
+
+.svc-slider-btn {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  background: #37241B;
+}
+
+.svc-slider-btn svg {
+  transform: translateX(-1px);
+}
+
+.svc-slider-btn:focus-visible {
+  outline: 3px solid #91B5D5;
+  outline-offset: 3px;
+}
+
+/* faint gradient strips at the right screen edge (they are in the mockup) */
+
+.svc-fade {
+  position: absolute;
+  right: 0;
+  z-index: 0;
+  width: 283px;
+  height: 49px;
+  background: linear-gradient(90deg, #FFFFFF 0%, #F2F5F9 100%);
+  pointer-events: none;
+}
+
+.svc-fade-types {
+  bottom: -111px;
+}
+
+.svc-fade-slider {
+  top: 6px;
+}
+
+/* ---------- Doctors ---------- */
+
+.svc-doctor {
+  display: flex;
+  gap: 148px;
+  padding: 0 var(--svc-gutter);
+}
+
+.svc-doctor-photo {
+  display: block;
+  flex: 0 0 156px;
+  width: 156px;
+  height: 402px;
+  object-fit: cover;
+}
+
+.svc-doctor-info {
+  width: 540px;
+}
+
+.svc-doctor-name {
+  max-width: 440px;
+  margin: 0;
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 44px;
+  color: #212529;
+}
+
+.svc-doctor-text {
+  margin: 71px 0 0;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 28px;
+  color: #212529;
+}
+
+.svc-section-doctors {
+  margin-bottom: 178px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-tab {
+    transition: none;
+  }
+}
+
+/* ---------- Below 1200px: stacked layout ---------- */
+
+@media (max-width: 1199px) {
+  .svc-page {
+    --svc-gutter: 20px;
+  }
+
+  .svc-breadcrumbs {
+    gap: 10px;
+    font-size: 14px;
+  }
+
+  .svc-breadcrumbs-sep {
+    font-size: 12px;
+  }
+
+  .svc-title {
+    margin-top: 32px;
+    font-size: 28px;
+    line-height: 1.25;
+    white-space: normal;
+  }
+
+  .svc-title-arrow {
+    width: 16px;
+    height: 15px;
+    margin-top: 8px;
+  }
+
+  .svc-tabs {
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .svc-tab {
+    flex: 1 1 calc(50% - 6px);
+    width: auto;
+    height: 64px;
+    padding: 0 12px;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .svc-section {
+    margin-top: 64px;
+  }
+
+  .svc-h2 {
+    margin-bottom: 24px;
+    font-size: 30px;
+    line-height: 1.2;
+  }
+
+  .svc-text {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  .svc-text,
+  .svc-type + .svc-type .svc-text {
+    padding-left: var(--svc-gutter);
+  }
+
+  .svc-list {
+    padding-left: var(--svc-gutter);
+  }
+
+  .svc-list-item {
+    grid-template-columns: 40px minmax(0, 1fr);
+    height: auto;
+    min-height: 64px;
+    padding: 16px 0;
+    font-size: 18px;
+    line-height: 1.4;
+  }
+
+  .svc-list-item::before {
+    font-size: 16px;
+  }
+
+  .svc-pairs {
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 24px;
+  }
+
+  .svc-type + .svc-type {
+    margin-top: 40px;
+  }
+
+  .svc-pair {
+    width: min(415px, 100%);
+    height: auto;
+    aspect-ratio: 415 / 622;
+  }
+
+  .svc-slider {
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .svc-slider .svc-pair {
+    flex: 0 0 min(280px, 70%);
+    scroll-snap-align: start;
+  }
+
+  .svc-slider-controls {
+    margin-top: 20px;
+  }
+
+  .svc-fade {
+    display: none;
+  }
+
+  .svc-doctor {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .svc-doctor-photo {
+    flex: none;
+  }
+
+  .svc-doctor-info {
+    width: auto;
+  }
+
+  .svc-doctor-name {
+    font-size: 26px;
+    line-height: 1.25;
+  }
+
+  .svc-doctor-text {
+    margin-top: 16px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .svc-section-doctors {
+    margin-bottom: 64px;
+  }
+}
+
+@media (max-width: 600px) {
+  .svc-page {
+    --svc-gutter: 16px;
+  }
+
+  .svc-tab {
+    flex-basis: 100%;
+  }
+
+  .svc-h2 {
+    font-size: 26px;
+  }
+}

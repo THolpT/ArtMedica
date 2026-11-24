@@ -1,5 +1,6 @@
 using ArtMedica.Application;
 using ArtMedica.Application.DTOs;
+using ArtMedica.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,74 +18,157 @@ public class PublicController : ControllerBase
     }
 
     // GET api/public/service-categories
-    [HttpGet("service-categories")]
-    public async Task<ActionResult<IEnumerable<ServiceCategoryDto>>> GetServiceCategories()
-    {
-        var categories = await _db.ServiceCategories
-            .AsNoTracking()
-            .OrderBy(c => c.Title)
-            .Select(c => new ServiceCategoryDto
+[HttpGet("service-categories")]
+public async Task<ActionResult<IEnumerable<ServiceCategoryDto>>> GetServiceCategories()
+{
+    var categories = await _db.ServiceCategories
+        .AsNoTracking()
+        .OrderBy(c => c.Title)
+        .Select(c => new ServiceCategoryDto
+        {
+            Id = c.Id,
+            Title = c.Title,
+            ImgUrl = new MediaFileDto
             {
-                Id = c.Id,
-                Title = c.Title,
-                ImgUrl = new MediaFileDto
-                {
-                    Id = c.ImgUrl.Id,
-                    Name = c.ImgUrl.Name,
-                    Url = c.ImgUrl.Url
-                }
-            })
-            .ToListAsync();
+                Id = c.ImgUrl.Id,
+                Name = c.ImgUrl.Name,
+                Url = c.ImgUrl.Url
+            }
+        })
+        .ToListAsync();
 
-        return Ok(categories);
+    return Ok(categories);
+}
+
+// GET api/public/service-subcategories
+// GET api/public/service-subcategories?categoryId=...
+// Получение подкатегорий (опционально — только для заданной категории)
+[HttpGet("service-subcategories")]
+public async Task<ActionResult<IEnumerable<ServiceSubcategoryDto>>> GetServiceSubcategories(
+    [FromQuery] Guid? categoryId)
+{
+    IQueryable<ServiceSubcategory> query;
+
+    if (categoryId.HasValue)
+    {
+        query = _db.ServiceCategories
+            .AsNoTracking()
+            .Where(c => c.Id == categoryId.Value)
+            .SelectMany(c => c.ServiceSubcategories);
+    }
+    else
+    {
+        query = _db.ServiceSubcategories.AsNoTracking();
     }
 
-    // GET api/public/services/by-categories
-    // GET api/public/services/by-categories?categoryId=...
-    [HttpGet("services/by-categories")]
-    public async Task<ActionResult<IEnumerable<CategoryWithServicesDto>>> GetServicesByCategories(
-        [FromQuery] Guid? categoryId)
+var subcategories = await query
+    .OrderBy(s => s.Title)
+    .Select(s => new ServiceSubcategoryDto
     {
-        var query = _db.ServiceCategories
+        Id = s.Id,
+        Title = s.Title,
+        Description = s.Description,  
+        ImgUrl = new MediaFileDto
+        {
+            Id = s.ImgUrl.Id,
+            Name = s.ImgUrl.Name,
+            Url = s.ImgUrl.Url
+        }
+    })
+    .ToListAsync();
+
+    return Ok(subcategories);
+}
+
+// GET api/public/service-subcategories/with-services
+// GET api/public/service-subcategories/with-services?categoryId=...
+// Замена старому services/by-categories: подкатегории с вложенными услугами
+[HttpGet("service-subcategories/with-services")]
+public async Task<ActionResult<IEnumerable<SubcategoryWithServicesDto>>> GetSubcategoriesWithServices(
+    [FromQuery] Guid? categoryId)
+{
+    IQueryable<ServiceSubcategory> query;
+
+    if (categoryId.HasValue)
+    {
+        query = _db.ServiceCategories
             .AsNoTracking()
-            .OrderBy(c => c.Title)
-            .AsQueryable();
-
-        if (categoryId.HasValue)
-            query = query.Where(c => c.Id == categoryId.Value);
-
-        var categories = await query
-            .Select(c => new CategoryWithServicesDto
-            {
-                Id = c.Id,
-                Title = c.Title,
-                ImgUrl = new MediaFileDto
-                {
-                    Id = c.ImgUrl.Id,
-                    Name = c.ImgUrl.Name,
-                    Url = c.ImgUrl.Url
-                },
-                Services = c.Services
-                    .OrderBy(s => s.DisplayTitle)
-                    .Select(s => new ServiceDto
-                    {
-                        Id = s.Id,
-                        NomenclatureCode = s.NomenclatureCode,
-                        MISCode = s.MISCode,
-                        Duration = s.Duration,
-                        Price = s.Price,
-                        DisplayTitle = s.DisplayTitle,
-                        TechnicalTitle = s.TechnicalTitle,
-                        Description = s.Description,
-                        Preparation = s.Preparation,
-                        Types = s.Types,
-                        CategoryId = s.CategoryId
-                    }).ToList()
-            })
-            .ToListAsync();
-
-        return Ok(categories);
+            .Where(c => c.Id == categoryId.Value)
+            .SelectMany(c => c.ServiceSubcategories);
     }
+    else
+    {
+        query = _db.ServiceSubcategories.AsNoTracking();
+    }
+
+    var subcategories = await query
+        .OrderBy(s => s.Title)
+        .Select(s => new SubcategoryWithServicesDto
+        {
+            Id = s.Id,
+            Title = s.Title,
+            Description = s.Description,
+            ImgUrl = new MediaFileDto
+            {
+                Id = s.ImgUrl.Id,
+                Name = s.ImgUrl.Name,
+                Url = s.ImgUrl.Url
+            },
+            Services = s.Services
+                .OrderBy(x => x.DisplayTitle)
+                .Select(x => new ServiceDto
+                {
+                    Id = x.Id,
+                    NomenclatureCode = x.NomenclatureCode,
+                    MISCode = x.MISCode,
+                    Duration = x.Duration,
+                    Price = x.Price,
+                    DisplayTitle = x.DisplayTitle,
+                    TechnicalTitle = x.TechnicalTitle,
+                    Description = x.Description,
+                    Preparation = x.Preparation,
+                    Types = x.Types,
+                    SubcategoryId = x.CategoryId
+                })
+                .ToList()
+        })
+        .ToListAsync();
+
+    return Ok(subcategories);
+}
+
+// GET api/public/services
+// GET api/public/services?subcategoryId=...
+// Получение услуг (опционально — только для заданной подкатегории)
+[HttpGet("services")]
+public async Task<ActionResult<IEnumerable<ServiceDto>>> GetServices(
+    [FromQuery] Guid? subcategoryId)
+{
+    var query = _db.Services.AsNoTracking().AsQueryable();
+
+    if (subcategoryId.HasValue)
+        query = query.Where(s => s.CategoryId == subcategoryId.Value);
+
+    var services = await query
+        .OrderBy(s => s.DisplayTitle)
+        .Select(s => new ServiceDto
+        {
+            Id = s.Id,
+            NomenclatureCode = s.NomenclatureCode,
+            MISCode = s.MISCode,
+            Duration = s.Duration,
+            Price = s.Price,
+            DisplayTitle = s.DisplayTitle,
+            TechnicalTitle = s.TechnicalTitle,
+            Description = s.Description,
+            Preparation = s.Preparation,
+            Types = s.Types,
+            SubcategoryId = s.CategoryId
+        })
+        .ToListAsync();
+
+    return Ok(services);
+}
 
     // GET api/public/services/{serviceId}/operation-results
     [HttpGet("services/{serviceId:guid}/operation-results")]

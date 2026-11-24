@@ -1,0 +1,279 @@
+/* Page: Услуги / Пластическая хирургия
+   A 1:1 copy of the 1920px mockup: content is 1720px wide (x = 100 … 1820).
+   Between 1200px and 1920px the whole page is scaled proportionally (see hooks/useDesignScale.ts);
+   below 1200px the cards are stacked (rules at the bottom). */
+
+.plastic-page {
+  font-family: 'Onest', 'Segoe UI', Arial, sans-serif;
+  color: #37241B;
+}
+
+.plastic-container {
+  box-sizing: border-box;
+  padding: 0 max(100px, calc((100% - 1720px) / 2)) 42px;
+}
+
+/* ---------- Breadcrumbs ---------- */
+
+.plastic-breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #37241B;
+}
+
+.plastic-breadcrumbs a {
+  color: #37241B;
+}
+
+.plastic-breadcrumbs a:first-child {
+  color: #000;
+}
+
+.plastic-breadcrumbs a:hover {
+  text-decoration: underline;
+}
+
+.plastic-breadcrumbs-sep {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ---------- Title + intro ---------- */
+
+.plastic-header {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* the intro starts at 1/3 of the content width */
+  align-items: start;
+  margin: 56px 0 41.5px;
+}
+
+.plastic-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 19px;
+  margin: 0;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 51.5px;
+  color: #8E949E;
+  white-space: nowrap;
+}
+
+.plastic-title-arrow {
+  flex-shrink: 0;
+  margin-top: 14.75px;
+  overflow: visible;
+}
+
+.plastic-intro {
+  max-width: 1100px;
+  margin: 0;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 51.5px;
+  color: #37241B;
+  text-indent: 292px; /* the first line is indented in the mockup */
+}
+
+/* ---------- Cards ---------- */
+
+.plastic-list {
+  display: flex;
+  flex-direction: column;
+  gap: 23px;
+  margin: 0;
+  padding: 0;
+}
+
+.plastic-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 424px 553px;
+  column-gap: 20px;
+  min-height: 437px;
+  padding: 18px 20px;
+  box-sizing: border-box;
+  background: #F4F7FF;
+  border-radius: 16px;
+}
+
+.plastic-card-main {
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.plastic-card-title {
+  margin: 1.9px 0 0;
+  font-size: 36px;
+  font-weight: 475;
+  letter-spacing: 1.15px;
+  line-height: 44px;
+  color: #000;
+}
+
+.plastic-card-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 217px;
+  height: 64px;
+  padding: 0;
+  border-radius: 31px;
+  background: #37241B;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 450;
+  letter-spacing: 0.83px;
+  line-height: 1;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.plastic-card-btn:hover {
+  background: #54382B;
+}
+
+.plastic-card-btn:focus-visible {
+  outline: 3px solid #91B5D5;
+  outline-offset: 3px;
+}
+
+.plastic-card-text {
+  grid-column: 2;
+  align-self: start;
+  margin: 114.9px 0 0 -1px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 26px;
+  color: #000;
+}
+
+.plastic-card-media {
+  grid-column: 3;
+  min-height: 0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.plastic-card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plastic-card-btn {
+    transition: none;
+  }
+}
+
+/* ---------- Below 1200px: stacked layout ---------- */
+
+@media (max-width: 1199px) {
+  .plastic-container {
+    padding: 0 20px 32px;
+  }
+
+  .plastic-breadcrumbs {
+    gap: 12px;
+    font-size: 14px;
+  }
+
+  .plastic-header {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 24px;
+    margin: 40px 0 32px;
+  }
+
+  .plastic-title,
+  .plastic-intro {
+    font-size: 26px;
+    line-height: 1.3;
+  }
+
+  .plastic-title {
+    white-space: normal;
+  }
+
+  .plastic-title-arrow {
+    margin-top: 6px;
+  }
+
+  .plastic-intro {
+    max-width: none;
+    text-indent: 0;
+  }
+
+  .plastic-intro-br {
+    display: none;
+  }
+
+  .plastic-card {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 20px;
+    min-height: 0;
+  }
+
+  /* title and button become direct grid items so the order is: image → title → text → button */
+  .plastic-card-main {
+    display: contents;
+  }
+
+  .plastic-card-title,
+  .plastic-card-text,
+  .plastic-card-btn,
+  .plastic-card-media {
+    grid-column: 1;
+  }
+
+  .plastic-card-media {
+    order: -1;
+    aspect-ratio: 553 / 401;
+  }
+
+  .plastic-card-title {
+    order: 1;
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  .plastic-card-text {
+    order: 2;
+    margin: 0;
+    font-size: 18px;
+  }
+
+  .plastic-card-btn {
+    order: 3;
+    justify-self: start;
+    width: auto;
+    height: 52px;
+    padding: 0 32px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .plastic-container {
+    padding: 0 16px 32px;
+  }
+
+  .plastic-card-title {
+    font-size: 24px;
+  }
+
+  .plastic-card-text {
+    font-size: 16px;
+  }
+}

@@ -20,8 +20,8 @@ public class ServiceCategory
     [ForeignKey(nameof(ImgUrlId))]
     public MediaFile ImgUrl { get; set; }
 
-    [InverseProperty(nameof(Service.Category))]
-    public ICollection<Service> Services { get; set; } = new List<Service>();
+    [InverseProperty(nameof(ServiceSubcategory.Category))]
+    public ICollection<ServiceSubcategory> ServiceSubcategories { get; set; } = new List<ServiceSubcategory>();
 
     public override string ToString()
     {

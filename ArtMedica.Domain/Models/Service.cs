@@ -42,7 +42,7 @@ public class Service
     public Guid CategoryId { get; set; }
 
     [ForeignKey(nameof(CategoryId))]
-    public ServiceCategory Category { get; set; }
+    public ServiceSubcategory Category { get; set; }
 
     public override string ToString()
     {

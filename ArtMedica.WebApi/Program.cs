@@ -16,33 +16,57 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-    builder.Services.AddDefaultIdentity<IdentityUser>(options =>
-    {
-        options.SignIn.RequireConfirmedAccount = false;
-        options.Password.RequireDigit = false;
-        options.Password.RequiredLength = 6;
-        options.Password.RequireNonAlphanumeric = false;
-        options.Password.RequireUppercase = false;
-        options.Password.RequireLowercase = false;
-    })
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+})
+.AddRoles<IdentityRole>()
+.AddEntityFrameworkStores<ApplicationDbContext>();
+
+// Cookie-аутентификация: куда редиректить неавторизованных
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.LogoutPath = "/Account/Logout";
+    options.AccessDeniedPath = "/Account/Login";
+    options.ExpireTimeSpan = TimeSpan.FromHours(8);
+    options.SlidingExpiration = true;
+    options.Cookie.Name = "ArtMedica.Admin";
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SameSite = SameSiteMode.Lax;
+});
+
+// Политика «только админ» — используется ниже в конвенциях Razor Pages
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy =>
+        policy.RequireRole(AdminSeeder.Role));
+});
 
 builder.Services.AddScoped<IAdminRegistry, AdminRegistry>();
 builder.Services.AddScoped<MediaStorageService>();
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
+
+// Закрываем ВСЕ страницы под /Admin ролью Admin, Login оставляем анонимным
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeFolder("/Admin", "AdminOnly");
+    options.Conventions.AllowAnonymousToPage("/Account/Login");
+});
 
 builder.Services.AddRazorRichText(opts =>
 {
     opts.DefaultHeight = 100;
     opts.DefaultPlaceholder = "Введите текст...";
-    // при необходимости: opts.SanitizeByDefault = true; (включено по умолчанию)
 });
 
 builder.Services.AddArtMedicaAdmin();
-
 
 builder.Services.AddCors(options =>
 {
@@ -79,15 +103,20 @@ app.MapDefaultControllerRoute();
 app.MapRazorPages();
 app.MapRazorRichTextAssets();
 
-if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
+using (var scope = app.Services.CreateScope())
 {
-    using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
-    await db.Database.MigrateAsync();
-    await DbSeeder.SeedAsync(db);
-    logger.LogInformation("Database migrated and seeded");
+    if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
+    {
+        await db.Database.MigrateAsync();
+        await DbSeeder.SeedAsync(db);
+        logger.LogInformation("Database migrated and seeded");
+    }
+
+    await AdminSeeder.SeedAsync(scope.ServiceProvider);
+    logger.LogInformation("Fixed admin user ensured");
 }
 
 app.Run();

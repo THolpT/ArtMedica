@@ -27,9 +27,11 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     public virtual DbSet<DocumentType> DocumentTypes { get; set; }
 
     // Услуги
-    public virtual DbSet<ServiceCategory> ServiceCategories { get; set; }
-    public virtual DbSet<Service> Services { get; set; }
-    public virtual DbSet<OperationResult> OperationResults { get; set; }
+// Услуги
+public virtual DbSet<ServiceCategory> ServiceCategories { get; set; }
+public virtual DbSet<ServiceSubcategory> ServiceSubcategories { get; set; }
+public virtual DbSet<Service> Services { get; set; }
+public virtual DbSet<OperationResult> OperationResults { get; set; }
 
     // Проекты
     public virtual DbSet<Project> Projects { get; set; }
@@ -202,42 +204,62 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     // ========================================================================
     //  УСЛУГИ
     // ========================================================================
-    private static void ConfigureServices(ModelBuilder modelBuilder)
+    // ========================================================================
+//  УСЛУГИ
+// ========================================================================
+private static void ConfigureServices(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<ServiceCategory>(builder =>
+{
+    builder.ToTable("ServiceCategories");
+    builder.HasKey(x => x.Id);
+
+    builder.Property(x => x.Title).IsRequired().HasMaxLength(200);
+
+    builder.HasOne(x => x.ImgUrl)
+           .WithMany()
+           .HasForeignKey(x => x.ImgUrlId)
+           .OnDelete(DeleteBehavior.Restrict);
+
+    builder.HasMany(x => x.ServiceSubcategories)
+           .WithOne(s => s.Category)
+           .HasForeignKey(s => s.CategoryId)
+           .OnDelete(DeleteBehavior.Cascade);
+});
+
+modelBuilder.Entity<ServiceSubcategory>(builder =>
+{
+    builder.ToTable("ServiceSubcategories");
+    builder.HasKey(x => x.Id);
+
+    builder.Property(x => x.Title).IsRequired().HasMaxLength(200);
+
+    builder.HasOne(x => x.ImgUrl)
+           .WithMany()
+           .HasForeignKey(x => x.ImgUrlId)
+           .OnDelete(DeleteBehavior.Restrict);
+
+    builder.HasMany(x => x.Services)
+           .WithOne(s => s.Category)
+           .HasForeignKey(s => s.CategoryId)
+           .OnDelete(DeleteBehavior.Restrict);
+});
+
+    modelBuilder.Entity<Service>(builder =>
     {
-        modelBuilder.Entity<ServiceCategory>(builder =>
-        {
-            builder.ToTable("ServiceCategories");
-            builder.HasKey(x => x.Id);
+        builder.ToTable("Services");
+        builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Title).IsRequired().HasMaxLength(200);
-
-            builder.HasOne(x => x.ImgUrl)
-                   .WithMany()
-                   .HasForeignKey(x => x.ImgUrlId)
-                   .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasMany(x => x.Services)
-                   .WithOne(s => s.Category)
-                   .HasForeignKey(s => s.CategoryId)
-                   .OnDelete(DeleteBehavior.Restrict);
-        });
-
-        modelBuilder.Entity<Service>(builder =>
-        {
-            builder.ToTable("Services");
-            builder.HasKey(x => x.Id);
-
-            builder.Property(x => x.Price).HasColumnType("decimal(18,2)");
-            builder.Property(x => x.NomenclatureCode).IsRequired().HasMaxLength(50);
-            builder.Property(x => x.MISCode).IsRequired().HasMaxLength(50);
-            builder.Property(x => x.DisplayTitle).IsRequired().HasMaxLength(200);
-            builder.Property(x => x.TechnicalTitle).IsRequired().HasMaxLength(200);
-            builder.Property(x => x.Description).HasMaxLength(2000);
-            builder.Property(x => x.Preparation).HasMaxLength(2000);
-            builder.Property(x => x.Types).HasMaxLength(2000);
-        });
-    }
-
+        builder.Property(x => x.Price).HasColumnType("decimal(18,2)");
+        builder.Property(x => x.NomenclatureCode).IsRequired().HasMaxLength(50);
+        builder.Property(x => x.MISCode).IsRequired().HasMaxLength(50);
+        builder.Property(x => x.DisplayTitle).IsRequired().HasMaxLength(200);
+        builder.Property(x => x.TechnicalTitle).IsRequired().HasMaxLength(200);
+        builder.Property(x => x.Description).HasMaxLength(2000);
+        builder.Property(x => x.Preparation).HasMaxLength(2000);
+        builder.Property(x => x.Types).HasMaxLength(2000);
+    });
+}
     // ========================================================================
     //  РЕЗУЛЬТАТЫ ОПЕРАЦИЙ
     // ========================================================================
